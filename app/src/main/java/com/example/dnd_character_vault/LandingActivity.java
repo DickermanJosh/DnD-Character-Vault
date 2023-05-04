@@ -26,6 +26,8 @@ public class LandingActivity extends AppCompatActivity {
     Button mLogout;
     Button mAdminThings;
 
+    Button mCharacterSelect;
+
     UserLoginDAO mUserLoginDAO;
 
     @Override
@@ -39,12 +41,13 @@ public class LandingActivity extends AppCompatActivity {
         mWelcome = binding.landingWelcomeTextview;
         mLogout = binding.logoutButton;
         mAdminThings = binding.adminButton;
+        mCharacterSelect = binding.CharacterSelectButton;
 
         mUserLoginDAO = Room.databaseBuilder(this, UserLoginDataBase.class, UserLoginDataBase.DATABASE_NAME)
                 .allowMainThreadQueries().build().mUserLoginDAO();
 
         // Not displaying name correctly from CreateAccount, but it's fine from Login
-        mWelcome.setText("Welcome " + MainActivity.currentUser.getUserName().toString());
+        mWelcome.setText("Welcome, " + MainActivity.currentUser.getUserName().toString());
 
         if(MainActivity.currentUser.isAdmin()){
             mAdminThings.setVisibility(View.VISIBLE);
@@ -56,6 +59,14 @@ public class LandingActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = MainActivity.getIntent(getApplicationContext(),MainActivity.currentUser.getLogId());
+                startActivity(intent);
+            }
+        });
+
+        mCharacterSelect.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = CharacterSelectActivity.getIntent(getApplicationContext(),MainActivity.currentUser.getLogId());
                 startActivity(intent);
             }
         });

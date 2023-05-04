@@ -6,6 +6,7 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
+import com.example.dnd_character_vault.Character;
 import com.example.dnd_character_vault.User;
 
 import java.util.List;
@@ -26,4 +27,7 @@ public interface UserLoginDAO {
 
     @Query("SELECT * FROM " + UserLoginDataBase.USER_TABLE + " WHERE mLogId = :logId")
     User getUserById(int logId);
+
+    @Query("SELECT * FROM " + UserLoginDataBase.USER_TABLE + " ORDER BY mCharacters desc")
+    List<Character> getCharacters();
 }

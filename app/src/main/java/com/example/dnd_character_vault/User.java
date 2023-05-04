@@ -5,6 +5,8 @@ import androidx.room.PrimaryKey;
 
 import com.example.dnd_character_vault.DB.UserLoginDataBase;
 
+import java.util.List;
+
 @Entity(tableName = UserLoginDataBase.USER_TABLE)
 public class User {
 
@@ -13,6 +15,8 @@ public class User {
 
     private String mUserName;
     private String mPassword;
+
+    private List<Character> mCharacters;
     private boolean isAdmin;
 
     public User(String userName, String password, boolean isAdmin) {
@@ -53,6 +57,14 @@ public class User {
 
     public void setPassword(String password) {
         mPassword = password;
+    }
+
+    public List<Character> getCharacters() {
+        return mCharacters;
+    }
+
+    public void setCharacters(List<Character> characters) {
+        mCharacters = characters;
     }
 
     public boolean isAdmin() {

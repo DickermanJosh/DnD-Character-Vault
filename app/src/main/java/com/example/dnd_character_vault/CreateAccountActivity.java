@@ -51,10 +51,10 @@ public class CreateAccountActivity extends AppCompatActivity {
         mCreateAcc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                currentUser = new User(mUsername.toString(),mPassword.toString(), false);
+                currentUser = new User(mUsername.toString(), mPassword.toString(), false);
                 MainActivity.currentUser = currentUser;
-                Intent intent = LandingActivity.getIntent(getApplicationContext(),currentUser.getLogId());
-                addUserToDB(mUsername.getText().toString(),mPassword.getText().toString());
+                Intent intent = LandingActivity.getIntent(getApplicationContext(), currentUser.getLogId());
+                addUserToDB(mUsername.getText().toString(), mPassword.getText().toString());
                 startActivity(intent);
 
             }
@@ -62,13 +62,13 @@ public class CreateAccountActivity extends AppCompatActivity {
 
     }
 
-    public static Intent getIntent(Context context, int userID){
-        Intent intent = new Intent(context,CreateAccountActivity.class);
-        intent.putExtra(CREATE_ACCOUNT_ACTIVITY_USER,userID);
+    public static Intent getIntent(Context context, int userID) {
+        Intent intent = new Intent(context, CreateAccountActivity.class);
+        intent.putExtra(CREATE_ACCOUNT_ACTIVITY_USER, userID);
         return intent;
     }
 
-    public void addUserToDB(String name, String password){
-        mUserLoginDAO.insert(new User(name,password,false));
+    public void addUserToDB(String name, String password) {
+        mUserLoginDAO.insert(new User(name, password, false));
     }
 }
