@@ -11,6 +11,8 @@ public class Item {
     @PrimaryKey(autoGenerate = true)
     private int itemId;
 
+    private int characterID;
+    private int userID;
     private String name;
     private String description;
     private String abilities;
@@ -21,6 +23,26 @@ public class Item {
         this.description = description;
         this.abilities = abilities;
         this.amountHeld = amountHeld;
+    }
+
+    public void setItemId(int itemId) {
+        this.itemId = itemId;
+    }
+
+    public int getCharacterID() {
+        return characterID;
+    }
+
+    public void setCharacterID(int characterID) {
+        this.characterID = characterID;
+    }
+
+    public int getUserID() {
+        return userID;
+    }
+
+    public void setUserID(int userID) {
+        this.userID = userID;
     }
 
     public int getItemId() {

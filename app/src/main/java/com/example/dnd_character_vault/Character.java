@@ -13,6 +13,8 @@ public class Character {
 
     @PrimaryKey(autoGenerate = true)
     private int characterID;
+
+    private int userID;
     private String name;
     private String race;
     private String characterClass;
@@ -27,10 +29,8 @@ public class Character {
     private int wisdom;
     private int charisma;
 
-    private List<Item> items;
-
     // Constructor
-    public Character(String name, String race, String characterClass, String subClass, int level, int maxHitPoints, int strength, int dexterity, int constitution, int intelligence, int wisdom, int charisma) {
+    public Character(String name, String race, String characterClass, String subClass, int level, int maxHitPoints, int strength, int dexterity, int constitution, int intelligence, int wisdom, int charisma, int userID) {
         this.name = name;
         this.race = race;
         this.characterClass = characterClass;
@@ -43,7 +43,7 @@ public class Character {
         this.intelligence = intelligence;
         this.wisdom = wisdom;
         this.charisma = charisma;
-
+        this.userID = userID;
         hitPoints = maxHitPoints;
     }
 
@@ -66,6 +66,10 @@ public class Character {
     @Override
     public int hashCode() {
         return Objects.hash(characterID, name, race, characterClass);
+    }
+
+    public int getUserID() {
+        return userID;
     }
 
     // Getters and setters
@@ -179,14 +183,6 @@ public class Character {
 
     public void setCharacterID(int characterID) {
         this.characterID = characterID;
-    }
-
-    public List<Item> getItems() {
-        return items;
-    }
-
-    public void setItems(List<Item> items) {
-        this.items = items;
     }
 }
 

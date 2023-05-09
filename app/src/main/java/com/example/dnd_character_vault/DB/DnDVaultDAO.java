@@ -28,8 +28,8 @@ public interface DnDVaultDAO {
     @Query("SELECT * FROM " + DnDAppDataBase.USER_TABLE + " WHERE mLogId = :logId")
     User getUserById(int logId);
 
-    @Query("SELECT * FROM " + DnDAppDataBase.USER_TABLE + " ORDER BY mCharacters desc")
-    List<Character> getCharacters();
+/*    @Query("SELECT * FROM " + DnDAppDataBase.USER_TABLE + " ORDER BY mCharacters desc")
+    List<Character> getCharacters();*/
 
     @Insert
     void insert(Character... characters);

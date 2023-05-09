@@ -20,11 +20,13 @@ public class LandingActivity extends AppCompatActivity {
 
     ActivityLandingPageBinding binding;
 
-    TextView mWelcome;
-    Button mLogout;
-    Button mAdminThings;
+    private TextView mWelcome;
+    private Button mLogout;
+    private Button mAdminThings;
 
-    Button mCharacterSelect;
+    private Button mCharacterSelect;
+
+    private Button mCreateNewCharacterButton;
 
     DnDVaultDAO mDnDVaultDAO;
 
@@ -40,6 +42,7 @@ public class LandingActivity extends AppCompatActivity {
         mLogout = binding.logoutButton;
         mAdminThings = binding.adminButton;
         mCharacterSelect = binding.CharacterSelectButton;
+        mCreateNewCharacterButton = binding.createNewCharacterButton;
 
         mDnDVaultDAO = Room.databaseBuilder(this, DnDAppDataBase.class, DnDAppDataBase.DATABASE_NAME)
                 .allowMainThreadQueries().build().mUserLoginDAO();
@@ -56,7 +59,7 @@ public class LandingActivity extends AppCompatActivity {
         mLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = MainActivity.getIntent(getApplicationContext(),MainActivity.currentUser.getLogId());
+                Intent intent = MainActivity.IntentFactory(getApplicationContext(),MainActivity.currentUser.getLogId());
                 startActivity(intent);
             }
         });
@@ -70,7 +73,7 @@ public class LandingActivity extends AppCompatActivity {
         });
     }
 
-    public static Intent getIntent(Context context, int userID){
+    public static Intent IntentFactory(Context context, int userID){
         Intent intent = new Intent(context,LandingActivity.class);
         intent.putExtra(LANDING_ACTIVITY_USER,userID);
         return intent;
