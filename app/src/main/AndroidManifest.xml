@@ -24,7 +24,7 @@
             android:name=".LoginActivity"
             android:exported="true">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.LOGIN_ACTIVITY_USER" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
@@ -33,7 +33,7 @@
             android:name=".CreateAccountActivity"
             android:exported="true">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.CREATE_ACCOUNT_ACTIVITY_USER" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
@@ -42,7 +42,16 @@
             android:name=".LandingActivity"
             android:exported="true">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.LANDING_ACTIVITY_USER" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".CharacterSelectActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.USER_CHARACTER_SELECT" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>

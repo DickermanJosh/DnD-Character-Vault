@@ -3,9 +3,11 @@ package com.example.dnd_character_vault;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-import com.example.dnd_character_vault.DB.UserLoginDataBase;
+import com.example.dnd_character_vault.DB.DnDAppDataBase;
 
-@Entity(tableName = UserLoginDataBase.USER_TABLE)
+import java.util.List;
+
+@Entity(tableName = DnDAppDataBase.USER_TABLE)
 public class User {
 
     @PrimaryKey(autoGenerate = true)
@@ -13,6 +15,8 @@ public class User {
 
     private String mUserName;
     private String mPassword;
+
+    private List<Character> mCharacters;
     private boolean isAdmin;
 
     public User(String userName, String password, boolean isAdmin) {
@@ -53,6 +57,14 @@ public class User {
 
     public void setPassword(String password) {
         mPassword = password;
+    }
+
+    public List<Character> getCharacters() {
+        return mCharacters;
+    }
+
+    public void setCharacters(List<Character> characters) {
+        mCharacters = characters;
     }
 
     public boolean isAdmin() {
