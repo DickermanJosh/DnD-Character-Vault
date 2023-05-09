@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.PersistableBundle;
-import android.widget.Button;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -29,7 +28,7 @@ public class CharacterSelectActivity extends AppCompatActivity {
 
     }
 
-    public static Intent getIntent(Context context, int userID) {
+    public static Intent IntentFactory(Context context, int userID) {
         Intent intent = new Intent(context, CharacterSelectActivity.class);
         intent.putExtra(USER_CHARACTER_SELECT, userID);
         return intent;

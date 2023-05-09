@@ -25,11 +25,14 @@ public interface DnDVaultDAO {
     @Delete
     void delete(User users);
 
+    @Query("SELECT * FROM " + DnDAppDataBase.USER_TABLE)
+    List<User> getAllUsers();
+
     @Query("SELECT * FROM " + DnDAppDataBase.USER_TABLE + " WHERE mUserName = :username")
     User getUserByUserName(String username);
 
     @Query("SELECT * FROM " + DnDAppDataBase.USER_TABLE + " WHERE mLogId = :logId")
-    User getUserById(int logId);
+    User getUserByUserId(int logId);
 
     // CHARACTER QUERIES
     // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=

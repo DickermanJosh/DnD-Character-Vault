@@ -67,7 +67,7 @@ public class LandingActivity extends AppCompatActivity {
         mCharacterSelect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = CharacterSelectActivity.getIntent(getApplicationContext(),MainActivity.currentUser.getLogId());
+                Intent intent = CharacterSelectActivity.IntentFactory(getApplicationContext(),MainActivity.currentUser.getLogId());
                 startActivity(intent);
             }
         });
