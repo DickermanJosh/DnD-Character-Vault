@@ -66,7 +66,7 @@ public class CreateAccountActivity extends AppCompatActivity {
                     return;
                 }
 
-                currentUser = new User(mUsername.toString(), mPassword.toString(), false);
+                currentUser = new User(mUsername.getText().toString(), mPassword.getText().toString(), false);
                 MainActivity.currentUser = currentUser;
                 Intent intent = LandingActivity.IntentFactory(getApplicationContext(), currentUser.getLogId());
                 addUserToDB(mUsername.getText().toString(), mPassword.getText().toString());
