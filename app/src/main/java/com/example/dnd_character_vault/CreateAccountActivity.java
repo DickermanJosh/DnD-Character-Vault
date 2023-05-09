@@ -65,11 +65,11 @@ public class CreateAccountActivity extends AppCompatActivity {
                 if(!checkForExistingAccount()){
                     return;
                 }
-
-                currentUser = new User(mUsername.getText().toString(), mPassword.getText().toString(), false);
+                addUserToDB(mUsername.getText().toString(), mPassword.getText().toString());
+                //currentUser = new User(mUsername.getText().toString(), mPassword.getText().toString(), false);
+                currentUser = mDnDVaultDAO.getUserByUserName(mUsername.getText().toString());
                 MainActivity.currentUser = currentUser;
                 Intent intent = LandingActivity.IntentFactory(getApplicationContext(), currentUser.getLogId());
-                addUserToDB(mUsername.getText().toString(), mPassword.getText().toString());
                 startActivity(intent);
 
             }
@@ -93,6 +93,6 @@ public class CreateAccountActivity extends AppCompatActivity {
     }
 
     public void addUserToDB(String name, String password) {
-        mDnDVaultDAO.insert(new User(name, password, false));
+         mDnDVaultDAO.insert(new User(name, password, false));
     }
 }
