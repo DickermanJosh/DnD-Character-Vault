@@ -5,16 +5,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.room.Room;
 
-import com.example.dnd_character_vault.DB.UserLoginDAO;
-import com.example.dnd_character_vault.DB.UserLoginDataBase;
+import com.example.dnd_character_vault.DB.DnDAppDataBase;
+import com.example.dnd_character_vault.DB.DnDVaultDAO;
 import com.example.dnd_character_vault.databinding.ActivityLandingPageBinding;
-import com.example.dnd_character_vault.databinding.ActivityLoginPageBinding;
 
 public class LandingActivity extends AppCompatActivity {
 
@@ -28,7 +26,7 @@ public class LandingActivity extends AppCompatActivity {
 
     Button mCharacterSelect;
 
-    UserLoginDAO mUserLoginDAO;
+    DnDVaultDAO mDnDVaultDAO;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +41,7 @@ public class LandingActivity extends AppCompatActivity {
         mAdminThings = binding.adminButton;
         mCharacterSelect = binding.CharacterSelectButton;
 
-        mUserLoginDAO = Room.databaseBuilder(this, UserLoginDataBase.class, UserLoginDataBase.DATABASE_NAME)
+        mDnDVaultDAO = Room.databaseBuilder(this, DnDAppDataBase.class, DnDAppDataBase.DATABASE_NAME)
                 .allowMainThreadQueries().build().mUserLoginDAO();
 
         // Not displaying name correctly from CreateAccount, but it's fine from Login

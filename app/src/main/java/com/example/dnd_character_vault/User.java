@@ -3,11 +3,11 @@ package com.example.dnd_character_vault;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-import com.example.dnd_character_vault.DB.UserLoginDataBase;
+import com.example.dnd_character_vault.DB.DnDAppDataBase;
 
 import java.util.List;
 
-@Entity(tableName = UserLoginDataBase.USER_TABLE)
+@Entity(tableName = DnDAppDataBase.USER_TABLE)
 public class User {
 
     @PrimaryKey(autoGenerate = true)

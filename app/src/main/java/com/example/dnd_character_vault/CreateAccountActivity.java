@@ -10,10 +10,9 @@ import android.widget.EditText;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.room.Room;
 
-import com.example.dnd_character_vault.DB.UserLoginDAO;
-import com.example.dnd_character_vault.DB.UserLoginDataBase;
+import com.example.dnd_character_vault.DB.DnDVaultDAO;
+import com.example.dnd_character_vault.DB.DnDAppDataBase;
 import com.example.dnd_character_vault.databinding.ActivityCreateAccountPageBinding;
-import com.example.dnd_character_vault.databinding.ActivityLoginPageBinding;
 
 import java.util.List;
 
@@ -28,7 +27,7 @@ public class CreateAccountActivity extends AppCompatActivity {
     EditText mUsername;
     EditText mPassword;
 
-    UserLoginDAO mUserLoginDAO;
+    DnDVaultDAO mDnDVaultDAO;
     List<User> mUserList;
     public static User currentUser;
     public static String currentUserName;
@@ -45,7 +44,7 @@ public class CreateAccountActivity extends AppCompatActivity {
         mPassword = binding.enterPasswordTextCreateAccPage;
         mCreateAcc = binding.createNewAccButtonCreateAccPage;
 
-        mUserLoginDAO = Room.databaseBuilder(this, UserLoginDataBase.class, UserLoginDataBase.DATABASE_NAME)
+        mDnDVaultDAO = Room.databaseBuilder(this, DnDAppDataBase.class, DnDAppDataBase.DATABASE_NAME)
                 .allowMainThreadQueries().build().mUserLoginDAO();
 
         mCreateAcc.setOnClickListener(new View.OnClickListener() {
@@ -69,6 +68,6 @@ public class CreateAccountActivity extends AppCompatActivity {
     }
 
     public void addUserToDB(String name, String password) {
-        mUserLoginDAO.insert(new User(name, password, false));
+        mDnDVaultDAO.insert(new User(name, password, false));
     }
 }

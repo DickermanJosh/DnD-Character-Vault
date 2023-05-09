@@ -8,11 +8,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 
-import com.example.dnd_character_vault.DB.UserLoginDAO;
-import com.example.dnd_character_vault.DB.UserLoginDataBase;
+import com.example.dnd_character_vault.DB.DnDAppDataBase;
+import com.example.dnd_character_vault.DB.DnDVaultDAO;
 import com.example.dnd_character_vault.databinding.ActivityMainBinding;
 
 import java.util.List;
@@ -27,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
     Button mLogin;
     Button mCreateAccount;
 
-    UserLoginDAO mUserLoginDAO;
+    DnDVaultDAO mDnDVaultDAO;
 
     List<User> mUserList;
 
@@ -45,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
         mLogin = binding.signInButtonLoginscreen;
         mCreateAccount = binding.createNewAccButtonLoginscreen;
 
-        mUserLoginDAO = Room.databaseBuilder(this, UserLoginDataBase.class, UserLoginDataBase.DATABASE_NAME)
+        mDnDVaultDAO = Room.databaseBuilder(this, DnDAppDataBase.class, DnDAppDataBase.DATABASE_NAME)
                 .allowMainThreadQueries().build().mUserLoginDAO();
 
         mLogin.setOnClickListener(new View.OnClickListener() {

@@ -1,9 +1,14 @@
 package com.example.dnd_character_vault;
 
+import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import com.example.dnd_character_vault.DB.DnDAppDataBase;
+
+import java.util.List;
 import java.util.Objects;
 
+@Entity(tableName = DnDAppDataBase.CHARACTER_TABLE)
 public class Character {
 
     @PrimaryKey(autoGenerate = true)
@@ -21,6 +26,8 @@ public class Character {
     private int intelligence;
     private int wisdom;
     private int charisma;
+
+    private List<Item> items;
 
     // Constructor
     public Character(String name, String race, String characterClass, String subClass, int level, int maxHitPoints, int strength, int dexterity, int constitution, int intelligence, int wisdom, int charisma) {
@@ -164,6 +171,22 @@ public class Character {
 
     public void setCharisma(int charisma) {
         this.charisma = charisma;
+    }
+
+    public int getCharacterID() {
+        return characterID;
+    }
+
+    public void setCharacterID(int characterID) {
+        this.characterID = characterID;
+    }
+
+    public List<Item> getItems() {
+        return items;
+    }
+
+    public void setItems(List<Item> items) {
+        this.items = items;
     }
 }
 
