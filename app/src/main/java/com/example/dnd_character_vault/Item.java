@@ -9,10 +9,10 @@ import com.example.dnd_character_vault.DB.DnDAppDataBase;
 public class Item {
 
     @PrimaryKey(autoGenerate = true)
-    private int itemId;
+    private int mItemId;
 
-    private int characterID;
-    private int userID;
+    private int mCharacterID;
+    private int mUserID;
     private String name;
     private String description;
     private String abilities;
@@ -26,27 +26,27 @@ public class Item {
     }
 
     public void setItemId(int itemId) {
-        this.itemId = itemId;
+        this.mItemId = itemId;
     }
 
     public int getCharacterID() {
-        return characterID;
+        return mCharacterID;
     }
 
     public void setCharacterID(int characterID) {
-        this.characterID = characterID;
+        this.mCharacterID = characterID;
     }
 
     public int getUserID() {
-        return userID;
+        return mUserID;
     }
 
     public void setUserID(int userID) {
-        this.userID = userID;
+        this.mUserID = userID;
     }
 
     public int getItemId() {
-        return itemId;
+        return mItemId;
     }
 
     public String getName() {

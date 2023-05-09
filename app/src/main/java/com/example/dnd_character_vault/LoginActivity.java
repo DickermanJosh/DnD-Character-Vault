@@ -23,15 +23,15 @@ public class LoginActivity extends AppCompatActivity {
 
     ActivityLoginPageBinding binding;
 
-    Button mLogin;
+    private Button mLogin;
 
-    EditText mUsername;
-    EditText mPassword;
+    private EditText mUsername;
+    private EditText mPassword;
 
     DnDVaultDAO mDnDVaultDAO;
-    List<User> mUserList;
+    private List<User> mUserList;
 
-    User currentUser;
+    private User mCurrentUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,8 +68,8 @@ public class LoginActivity extends AppCompatActivity {
                         Toast.makeText(LoginActivity.this, "Invalid password", Toast.LENGTH_SHORT).show();
                     } else{
                         // currentUser = mDnDVaultDAO.getUserByUserName(mUsername.getText().toString());
-                        MainActivity.currentUser = currentUser;
-                        Intent intent = LandingActivity.IntentFactory(getApplicationContext(),currentUser.getLogId());
+                        MainActivity.currentUser = mCurrentUser;
+                        Intent intent = LandingActivity.IntentFactory(getApplicationContext(), mCurrentUser.getLogId());
                         startActivity(intent);
                     }
                 }
@@ -79,8 +79,8 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private boolean checkForUserInDatabase(){
-        currentUser = mDnDVaultDAO.getUserByUserName(mUsername.getText().toString());
-        if(currentUser == null){
+        mCurrentUser = mDnDVaultDAO.getUserByUserName(mUsername.getText().toString());
+        if(mCurrentUser == null){
             Toast.makeText(this, "No user with username: " + mUsername.getText().toString() + " was found", Toast.LENGTH_SHORT).show();
             return false;
         }
@@ -88,7 +88,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private boolean validatePassword(){
-        return currentUser.getPassword().equals(mPassword);
+        return mCurrentUser.getPassword().equals(mPassword.getText().toString());
     }
 
     public static Intent IntentFactory(Context context, int userID){
