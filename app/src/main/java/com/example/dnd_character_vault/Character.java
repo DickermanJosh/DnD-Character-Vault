@@ -2,9 +2,11 @@ package com.example.dnd_character_vault;
 
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
+import androidx.room.TypeConverters;
 
 import com.example.dnd_character_vault.DB.DnDAppDataBase;
 
+import java.util.List;
 import java.util.Objects;
 
 @Entity(tableName = DnDAppDataBase.CHARACTER_TABLE)
@@ -28,13 +30,36 @@ public class Character {
     private int wisdom;
     private int charisma;
 
+    private int armorClass;
+
+    private int initiative;
+
+    private int inspiration;
+
+    private int proficiencyBonus;
+
+    private String backStory;
+    private String traits;
+    private String ideals;
+    private String bonds;
+    private String flaws;
+    private String features;
+    private String spells;
+    //private List<Item> equipment;
+
+
+
+
     // Constructor
-    public Character(String name, String race, String characterClass, String subClass, int level, int maxHitPoints, int strength, int dexterity, int constitution, int intelligence, int wisdom, int charisma, int userID) {
+
+
+    public Character(String name, String race, String characterClass, String subClass, int level, int hitPoints, int maxHitPoints, int strength, int dexterity, int constitution, int intelligence, int wisdom, int charisma, int armorClass, int initiative, int inspiration, int proficiencyBonus, String backStory, String traits, String ideals, String bonds, String flaws, String features, String spells) {
         this.name = name;
         this.race = race;
         this.characterClass = characterClass;
         this.subClass = subClass;
         this.level = level;
+        this.hitPoints = hitPoints;
         this.maxHitPoints = maxHitPoints;
         this.strength = strength;
         this.dexterity = dexterity;
@@ -42,7 +67,18 @@ public class Character {
         this.intelligence = intelligence;
         this.wisdom = wisdom;
         this.charisma = charisma;
-        this.mUserID = userID;
+        this.armorClass = armorClass;
+        this.initiative = initiative;
+        this.inspiration = inspiration;
+        this.proficiencyBonus = proficiencyBonus;
+        this.backStory = backStory;
+        this.traits = traits;
+        this.ideals = ideals;
+        this.bonds = bonds;
+        this.flaws = flaws;
+        this.features = features;
+        this.spells = spells;
+        //this.equipment = equipment;
         hitPoints = maxHitPoints;
     }
 
@@ -54,24 +90,22 @@ public class Character {
                 ". ID: " + mCharacterID;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Character character = (Character) o;
-        return mCharacterID == character.mCharacterID && Objects.equals(name, character.name) && Objects.equals(race, character.race) && Objects.equals(characterClass, character.characterClass);
+    public int getCharacterID() {
+        return mCharacterID;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(mCharacterID, name, race, characterClass);
+    public void setCharacterID(int characterID) {
+        mCharacterID = characterID;
     }
 
     public int getUserID() {
         return mUserID;
     }
 
-    // Getters and setters
+    public void setUserID(int userID) {
+        mUserID = userID;
+    }
+
     public String getName() {
         return name;
     }
@@ -176,12 +210,92 @@ public class Character {
         this.charisma = charisma;
     }
 
-    public int getCharacterID() {
-        return mCharacterID;
+    public int getArmorClass() {
+        return armorClass;
     }
 
-    public void setCharacterID(int characterID) {
-        this.mCharacterID = characterID;
+    public void setArmorClass(int armorClass) {
+        this.armorClass = armorClass;
+    }
+
+    public int getInitiative() {
+        return initiative;
+    }
+
+    public void setInitiative(int initiative) {
+        this.initiative = initiative;
+    }
+
+    public int getInspiration() {
+        return inspiration;
+    }
+
+    public void setInspiration(int inspiration) {
+        this.inspiration = inspiration;
+    }
+
+    public int getProficiencyBonus() {
+        return proficiencyBonus;
+    }
+
+    public void setProficiencyBonus(int proficiencyBonus) {
+        this.proficiencyBonus = proficiencyBonus;
+    }
+
+    public String getBackStory() {
+        return backStory;
+    }
+
+    public void setBackStory(String backStory) {
+        this.backStory = backStory;
+    }
+
+    public String getTraits() {
+        return traits;
+    }
+
+    public void setTraits(String traits) {
+        this.traits = traits;
+    }
+
+    public String getIdeals() {
+        return ideals;
+    }
+
+    public void setIdeals(String ideals) {
+        this.ideals = ideals;
+    }
+
+    public String getBonds() {
+        return bonds;
+    }
+
+    public void setBonds(String bonds) {
+        this.bonds = bonds;
+    }
+
+    public String getFlaws() {
+        return flaws;
+    }
+
+    public void setFlaws(String flaws) {
+        this.flaws = flaws;
+    }
+
+    public String getFeatures() {
+        return features;
+    }
+
+    public void setFeatures(String features) {
+        this.features = features;
+    }
+
+    public String getSpells() {
+        return spells;
+    }
+
+    public void setSpells(String spells) {
+        this.spells = spells;
     }
 }
 

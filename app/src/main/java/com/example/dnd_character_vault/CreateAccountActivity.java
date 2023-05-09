@@ -46,7 +46,7 @@ public class CreateAccountActivity extends AppCompatActivity {
         mCreateAcc = binding.createNewAccButtonCreateAccPage;
 
         mDnDVaultDAO = Room.databaseBuilder(this, DnDAppDataBase.class, DnDAppDataBase.DATABASE_NAME)
-                .allowMainThreadQueries().build().mUserLoginDAO();
+                .allowMainThreadQueries().build().mDnDVaultDAO();
 
         mCreateAcc.setOnClickListener(new View.OnClickListener() {
             @Override

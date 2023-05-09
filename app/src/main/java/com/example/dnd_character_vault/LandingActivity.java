@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.room.Room;
@@ -45,7 +46,7 @@ public class LandingActivity extends AppCompatActivity {
         mCreateNewCharacterButton = binding.createNewCharacterButton;
 
         mDnDVaultDAO = Room.databaseBuilder(this, DnDAppDataBase.class, DnDAppDataBase.DATABASE_NAME)
-                .allowMainThreadQueries().build().mUserLoginDAO();
+                .allowMainThreadQueries().build().mDnDVaultDAO();
 
         // Not displaying name correctly from CreateAccount, but it's fine from Login
         mWelcome.setText("Welcome, " + MainActivity.currentUser.getUserName().toString());
@@ -67,7 +68,23 @@ public class LandingActivity extends AppCompatActivity {
         mCharacterSelect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                // If there are no characters in the user's list a Toast will appear
+                if(mDnDVaultDAO.getCharacterListByUserID(MainActivity.currentUser.getLogId()).isEmpty()){
+                    Toast.makeText(LandingActivity.this, "You don't have any existing characters yet!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                // If the user has any saved characters they will be allowed to continue to the activity
                 Intent intent = CharacterSelectActivity.IntentFactory(getApplicationContext(),MainActivity.currentUser.getLogId());
+                startActivity(intent);
+            }
+        });
+
+        mCreateNewCharacterButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = CharacterCreateActivity.IntentFactory(getApplicationContext(),MainActivity.currentUser.getLogId());
                 startActivity(intent);
             }
         });

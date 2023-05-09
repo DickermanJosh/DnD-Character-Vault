@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void getDatabase(){
         mDnDVaultDAO = Room.databaseBuilder(this, DnDAppDataBase.class, DnDAppDataBase.DATABASE_NAME)
-                .allowMainThreadQueries().build().mUserLoginDAO();
+                .allowMainThreadQueries().build().mDnDVaultDAO();
     }
 
     private void loginUser(int userId) {

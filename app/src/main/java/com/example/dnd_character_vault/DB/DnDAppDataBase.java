@@ -20,7 +20,7 @@ public abstract class DnDAppDataBase extends RoomDatabase {
     // LOCK is used as a tool it "lock" the database so that no other processes can access it while we are updating it
     private static final Object LOCK = new Object();
 
-    public abstract DnDVaultDAO mUserLoginDAO();
+    public abstract DnDVaultDAO mDnDVaultDAO();
 
     public static DnDAppDataBase getInstance(Context context){
         if(instance == null){
