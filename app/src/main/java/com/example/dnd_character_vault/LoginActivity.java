@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.room.Room;
@@ -50,20 +51,47 @@ public class LoginActivity extends AppCompatActivity {
         mLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                currentUser = mDnDVaultDAO.getUserByUserName(mUsername.getText().toString());
-                //if(mUserList.contains(currentUser)){
-                    MainActivity.currentUser = currentUser;
-                    Intent intent = LandingActivity.getIntent(getApplicationContext(),currentUser.getLogId());
-                    startActivity(intent);
-                //} else{
-                //    Log.d("USER_DOES_NOT_EXIST","Wrong username of password!");
-                //}
+
+                // Checking to ensure both fields were filled in
+                if(mUsername.getText().toString().length() == 0){
+                    Toast.makeText(LoginActivity.this, "Please enter a username to login", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if(mPassword.getText().toString().length() == 0){
+                    Toast.makeText(LoginActivity.this, "Please enter a password to login", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                // Validating that the user exists in the DB with the proper username / password
+                if(checkForUserInDatabase()){
+                    if(!validatePassword()){
+                        Toast.makeText(LoginActivity.this, "Invalid password", Toast.LENGTH_SHORT).show();
+                    } else{
+                        // currentUser = mDnDVaultDAO.getUserByUserName(mUsername.getText().toString());
+                        MainActivity.currentUser = currentUser;
+                        Intent intent = LandingActivity.IntentFactory(getApplicationContext(),currentUser.getLogId());
+                        startActivity(intent);
+                    }
+                }
             }
         });
 
     }
 
-    public static Intent getIntent(Context context, int userID){
+    private boolean checkForUserInDatabase(){
+        currentUser = mDnDVaultDAO.getUserByUserName(mUsername.getText().toString());
+        if(currentUser == null){
+            Toast.makeText(this, "No user with username: " + mUsername.getText().toString() + " was found", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
+    }
+
+    private boolean validatePassword(){
+        return currentUser.getPassword().equals(mPassword);
+    }
+
+    public static Intent IntentFactory(Context context, int userID){
         Intent intent = new Intent(context,LoginActivity.class);
         intent.putExtra(LOGIN_ACTIVITY_USER,userID);
         return intent;

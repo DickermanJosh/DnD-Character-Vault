@@ -44,13 +44,12 @@ public class MainActivity extends AppCompatActivity {
         mLogin = binding.signInButtonLoginscreen;
         mCreateAccount = binding.createNewAccButtonLoginscreen;
 
-        mDnDVaultDAO = Room.databaseBuilder(this, DnDAppDataBase.class, DnDAppDataBase.DATABASE_NAME)
-                .allowMainThreadQueries().build().mUserLoginDAO();
+        getDatabase();
 
         mLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = LoginActivity.getIntent(getApplicationContext(),0);
+                Intent intent = LoginActivity.IntentFactory(getApplicationContext(),0);
                 startActivity(intent);
             }
         });
@@ -58,13 +57,18 @@ public class MainActivity extends AppCompatActivity {
         mCreateAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = CreateAccountActivity.getIntent(getApplicationContext(),0);
+                Intent intent = CreateAccountActivity.IntentFactory(getApplicationContext(),0);
                 startActivity(intent);
             }
         });
     }
 
-    public static Intent getIntent(Context context, int userID){
+    private void getDatabase(){
+        mDnDVaultDAO = Room.databaseBuilder(this, DnDAppDataBase.class, DnDAppDataBase.DATABASE_NAME)
+                .allowMainThreadQueries().build().mUserLoginDAO();
+    }
+
+    public static Intent IntentFactory(Context context, int userID){
         Intent intent = new Intent(context,MainActivity.class);
         intent.putExtra(MAIN_ACTIVITY_USER,userID);
         return intent;

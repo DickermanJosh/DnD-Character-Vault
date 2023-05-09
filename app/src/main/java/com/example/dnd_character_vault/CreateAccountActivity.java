@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.room.Room;
@@ -50,9 +51,24 @@ public class CreateAccountActivity extends AppCompatActivity {
         mCreateAcc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                // Checking to ensure both fields were filled in
+                if(mUsername.getText().toString().length() == 0){
+                    Toast.makeText(CreateAccountActivity.this, "Please enter a username to login", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if(mPassword.getText().toString().length() == 0){
+                    Toast.makeText(CreateAccountActivity.this, "Please enter a password to login", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if(!checkForExistingAccount()){
+                    return;
+                }
+
                 currentUser = new User(mUsername.toString(), mPassword.toString(), false);
                 MainActivity.currentUser = currentUser;
-                Intent intent = LandingActivity.getIntent(getApplicationContext(), currentUser.getLogId());
+                Intent intent = LandingActivity.IntentFactory(getApplicationContext(), currentUser.getLogId());
                 addUserToDB(mUsername.getText().toString(), mPassword.getText().toString());
                 startActivity(intent);
 
@@ -61,7 +77,16 @@ public class CreateAccountActivity extends AppCompatActivity {
 
     }
 
-    public static Intent getIntent(Context context, int userID) {
+    private boolean checkForExistingAccount(){
+        currentUser = mDnDVaultDAO.getUserByUserName(mUsername.getText().toString());
+        if(currentUser != null){
+            Toast.makeText(this, "Username: " + mUsername.getText().toString() + " is already taken, please try another.", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
+    }
+
+    public static Intent IntentFactory(Context context, int userID) {
         Intent intent = new Intent(context, CreateAccountActivity.class);
         intent.putExtra(CREATE_ACCOUNT_ACTIVITY_USER, userID);
         return intent;

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.PersistableBundle;
+import android.widget.Button;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,6 +16,8 @@ public class CharacterSelectActivity extends AppCompatActivity {
 
     ActivityCharacterSelectPageBinding binding;
 
+
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistentState) {
         super.onCreate(savedInstanceState, persistentState);
@@ -22,6 +25,8 @@ public class CharacterSelectActivity extends AppCompatActivity {
 
         binding = ActivityCharacterSelectPageBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+
     }
 
     public static Intent getIntent(Context context, int userID) {
