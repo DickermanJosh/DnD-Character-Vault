@@ -5,16 +5,15 @@ import androidx.room.PrimaryKey;
 
 import com.example.dnd_character_vault.DB.DnDAppDataBase;
 
-import java.util.List;
 import java.util.Objects;
 
 @Entity(tableName = DnDAppDataBase.CHARACTER_TABLE)
 public class Character {
 
     @PrimaryKey(autoGenerate = true)
-    private int characterID;
+    private int mCharacterID;
 
-    private int userID;
+    private int mUserID;
     private String name;
     private String race;
     private String characterClass;
@@ -43,7 +42,7 @@ public class Character {
         this.intelligence = intelligence;
         this.wisdom = wisdom;
         this.charisma = charisma;
-        this.userID = userID;
+        this.mUserID = userID;
         hitPoints = maxHitPoints;
     }
 
@@ -52,7 +51,7 @@ public class Character {
         return name + " is a "
                 + race + " " +
                 characterClass +
-                ". ID: " + characterID;
+                ". ID: " + mCharacterID;
     }
 
     @Override
@@ -60,16 +59,16 @@ public class Character {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Character character = (Character) o;
-        return characterID == character.characterID && Objects.equals(name, character.name) && Objects.equals(race, character.race) && Objects.equals(characterClass, character.characterClass);
+        return mCharacterID == character.mCharacterID && Objects.equals(name, character.name) && Objects.equals(race, character.race) && Objects.equals(characterClass, character.characterClass);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(characterID, name, race, characterClass);
+        return Objects.hash(mCharacterID, name, race, characterClass);
     }
 
     public int getUserID() {
-        return userID;
+        return mUserID;
     }
 
     // Getters and setters
@@ -178,11 +177,11 @@ public class Character {
     }
 
     public int getCharacterID() {
-        return characterID;
+        return mCharacterID;
     }
 
     public void setCharacterID(int characterID) {
-        this.characterID = characterID;
+        this.mCharacterID = characterID;
     }
 }
 
