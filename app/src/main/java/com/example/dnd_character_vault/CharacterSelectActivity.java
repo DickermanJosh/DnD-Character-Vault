@@ -36,6 +36,8 @@ public class CharacterSelectActivity extends AppCompatActivity {
 
     private DnDVaultDAO mDnDVaultDAO;
 
+    public static int characterID;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,6 +56,8 @@ public class CharacterSelectActivity extends AppCompatActivity {
         mCharacterListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                characterID = mCharacterListPositionMap.get(i);
+
                 Intent intent = CharacterEditActivity.IntentFactory(getApplicationContext(),
                         MainActivity.currentUser.getLogId(),mCharacterListPositionMap.get(i));
                 startActivity(intent);
