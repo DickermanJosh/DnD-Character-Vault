@@ -45,21 +45,18 @@ public class Character {
     private String flaws;
     private String features;
     private String spells;
-    //private List<Item> equipment;
 
 
 
 
     // Constructor
-
-
-    public Character(String name, String race, String characterClass, String subClass, int level, int hitPoints, int maxHitPoints, int strength, int dexterity, int constitution, int intelligence, int wisdom, int charisma, int armorClass, int initiative, int inspiration, int proficiencyBonus, String backStory, String traits, String ideals, String bonds, String flaws, String features, String spells) {
+    public Character(int userID, String name, String race, String characterClass, String subClass, int level, int maxHitPoints, int strength, int dexterity, int constitution, int intelligence, int wisdom, int charisma, int armorClass, int initiative, int inspiration, int proficiencyBonus, String backStory, String traits, String ideals, String bonds, String flaws, String features, String spells) {
+        this.mUserID = userID;
         this.name = name;
         this.race = race;
         this.characterClass = characterClass;
         this.subClass = subClass;
         this.level = level;
-        this.hitPoints = hitPoints;
         this.maxHitPoints = maxHitPoints;
         this.strength = strength;
         this.dexterity = dexterity;
