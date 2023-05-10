@@ -47,7 +47,7 @@ public interface DnDVaultDAO {
     void delete(Character characters);
 
     // Get a list of characters based on the user
-    @Query("SELECT * FROM " + DnDAppDataBase.CHARACTER_TABLE + " WHERE mUserID = :userID ORDER BY mCharacterID DESC")
+    @Query("SELECT * FROM " + DnDAppDataBase.CHARACTER_TABLE + " WHERE mUserID = :userID")
     List<Character> getCharacterListByUserID(int userID);
 
     // Get a character based on their ID
