@@ -46,7 +46,7 @@ public class LoginActivity extends AppCompatActivity {
         mLogin = binding.signInButtonLoginscreen;
 
         mDnDVaultDAO = Room.databaseBuilder(this, DnDAppDataBase.class, DnDAppDataBase.DATABASE_NAME)
-                .allowMainThreadQueries().build().mUserLoginDAO();
+                .allowMainThreadQueries().build().mDnDVaultDAO();
 
         mLogin.setOnClickListener(new View.OnClickListener() {
             @Override
