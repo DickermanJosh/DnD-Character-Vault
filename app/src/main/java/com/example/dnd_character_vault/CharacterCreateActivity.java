@@ -94,8 +94,7 @@ public class CharacterCreateActivity extends AppCompatActivity {
                         mIdeals.getText().toString(),
                         mBonds.getText().toString(),
                         mFlaws.getText().toString(),
-                        mFeatures.getText().toString(),
-                        ""
+                        mFeatures.getText().toString()
                 );
 
                 addCharacterToDB(newCharacter);

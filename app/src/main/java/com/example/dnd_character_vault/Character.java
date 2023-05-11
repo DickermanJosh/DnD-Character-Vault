@@ -44,13 +44,9 @@ public class Character {
     private String bonds;
     private String flaws;
     private String features;
-    private String spells;
-
-
-
 
     // Constructor
-    public Character(int userID, String name, String race, String characterClass, String subClass, int level, int maxHitPoints, int strength, int dexterity, int constitution, int intelligence, int wisdom, int charisma, int armorClass, int initiative, int inspiration, int proficiencyBonus, String backStory, String traits, String ideals, String bonds, String flaws, String features, String spells) {
+    public Character(int userID, String name, String race, String characterClass, String subClass, int level, int maxHitPoints, int strength, int dexterity, int constitution, int intelligence, int wisdom, int charisma, int armorClass, int initiative, int inspiration, int proficiencyBonus, String backStory, String traits, String ideals, String bonds, String flaws, String features) {
         this.mUserID = userID;
         this.name = name;
         this.race = race;
@@ -74,7 +70,6 @@ public class Character {
         this.bonds = bonds;
         this.flaws = flaws;
         this.features = features;
-        this.spells = spells;
         //this.equipment = equipment;
         hitPoints = maxHitPoints;
     }
@@ -285,14 +280,6 @@ public class Character {
 
     public void setFeatures(String features) {
         this.features = features;
-    }
-
-    public String getSpells() {
-        return spells;
-    }
-
-    public void setSpells(String spells) {
-        this.spells = spells;
     }
 }
 

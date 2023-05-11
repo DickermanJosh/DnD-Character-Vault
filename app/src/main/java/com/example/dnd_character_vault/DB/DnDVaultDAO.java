@@ -8,7 +8,9 @@ import androidx.room.Update;
 
 import com.example.dnd_character_vault.Character;
 import com.example.dnd_character_vault.Item;
+import com.example.dnd_character_vault.Spell;
 import com.example.dnd_character_vault.User;
+import com.example.dnd_character_vault.Weapon;
 
 import java.util.List;
 @Dao
@@ -78,4 +80,52 @@ public interface DnDVaultDAO {
     // Get a specific item based on its ID
     @Query("SELECT * FROM " + DnDAppDataBase.ITEM_TABLE + " WHERE mItemId = :itemID")
     Item getItemByItemID(int itemID);
+
+    // WEAPON QUERIES
+    // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+    @Insert
+    void insert(Weapon... weapons);
+
+    @Update
+    void update(Weapon... weapons);
+
+    @Delete
+    void delete(Weapon weapons);
+
+    // Get a list of all the weapons associated with a user
+    @Query("SELECT * FROM " + DnDAppDataBase.WEAPON_TABLE + " WHERE mUserID = :userID")
+    List<Weapon> getWeaponListByUserID(int userID);
+
+    // Get a list of all the weapons associated with a specific character (should only be user after getting the user)
+    @Query("SELECT * FROM " + DnDAppDataBase.WEAPON_TABLE + " WHERE mCharacterID = :characterID")
+    List<Weapon> getWeaponsByCharacterID(int characterID);
+
+    // Get a specific weapon based on its ID
+    @Query("SELECT * FROM " + DnDAppDataBase.WEAPON_TABLE + " WHERE mWeaponId = :weaponID")
+    Weapon getWeaponByWeaponID(int weaponID);
+
+    // SPELL QUERIES
+    // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+    @Insert
+    void insert(Spell... spells);
+
+    @Update
+    void update(Spell... spells);
+
+    @Delete
+    void delete(Spell spells);
+
+    // Get a list of all the items associated with a user, listed in order of characterID
+    @Query("SELECT * FROM " + DnDAppDataBase.SPELL_TABLE + " WHERE mUserID = :userID")
+    List<Spell> getSpellListByUserID(int userID);
+
+    // Get a list of all the items associated with a specific character (should only be user after getting the user)
+    @Query("SELECT * FROM " + DnDAppDataBase.SPELL_TABLE + " WHERE mCharacterID = :characterID")
+    List<Spell> getSpellsByCharacterID(int characterID);
+
+    // Get a specific item based on its ID
+    @Query("SELECT * FROM " + DnDAppDataBase.SPELL_TABLE + " WHERE mSpellId = :spellID")
+    Spell getSpellBySpellID(int spellID);
 }
