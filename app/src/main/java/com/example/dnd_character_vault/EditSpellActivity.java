@@ -13,24 +13,23 @@ import android.widget.Toast;
 
 import com.example.dnd_character_vault.DB.DnDAppDataBase;
 import com.example.dnd_character_vault.DB.DnDVaultDAO;
-import com.example.dnd_character_vault.databinding.ActivityCreateAccountPageBinding;
-import com.example.dnd_character_vault.databinding.ActivityEditItemBinding;
+import com.example.dnd_character_vault.databinding.ActivityEditSpellBinding;
 
-public class EditItemActivity extends AppCompatActivity {
+public class EditSpellActivity extends AppCompatActivity {
 
-    private static final String EDIT_ITEM_ID = "com.example.dnd_character_vault.ItemEditID";
+    private static final String EDIT_SPELL_ID = "com.example.dnd_character_vault.SpellEditID";
 
-    ActivityEditItemBinding binding;
+    ActivityEditSpellBinding binding;
 
     private EditText mName;
     private EditText mDesc;
-    private EditText mAbilities;
-    private EditText mAmountHeld;
+    private EditText mDamage;
+    private EditText mCharges;
 
     private Button mSaveButton;
     private Button mBackButton;
 
-    private Item originalItem;
+    private Spell originalSpell;
 
     private DnDVaultDAO mDnDVaultDAO;
 
@@ -38,14 +37,14 @@ public class EditItemActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_edit_item);
+        setContentView(R.layout.activity_edit_spell);
 
-        binding = ActivityEditItemBinding.inflate(getLayoutInflater());
+        binding = ActivityEditSpellBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         setupDB();
 
-        originalItem = mDnDVaultDAO.getItemByItemID(CharacterEditActivity.selectedItemID);
+        originalSpell = mDnDVaultDAO.getSpellBySpellID(CharacterEditActivity.selectedSpellID);
 
         wireupDisplay();
 
@@ -55,9 +54,9 @@ public class EditItemActivity extends AppCompatActivity {
 
                 verifyFields();
 
-                mDnDVaultDAO.update(originalItem);
+                mDnDVaultDAO.update(originalSpell);
 
-                showToast("Item successfully updated");
+                showToast("Spell successfully updated");
             }
         });
 
@@ -75,16 +74,16 @@ public class EditItemActivity extends AppCompatActivity {
     private void verifyFields() {
 
         if(!mName.getText().toString().isEmpty()){
-            originalItem.setName(mName.getText().toString());
+            originalSpell.setName(mName.getText().toString());
         }
         if(!mDesc.getText().toString().isEmpty()){
-            originalItem.setDescription(mDesc.getText().toString());
+            originalSpell.setDescription(mDesc.getText().toString());
         }
-        if(!mAbilities.getText().toString().isEmpty()){
-            originalItem.setAbilities(mAbilities.getText().toString());
+        if(!mDamage.getText().toString().isEmpty()){
+            originalSpell.setDamage(Integer.parseInt(mDamage.getText().toString()));
         }
-        if(!mAmountHeld.getText().toString().isEmpty()){
-            originalItem.setAmountHeld(Integer.parseInt(mAmountHeld.getText().toString()));
+        if(!mCharges.getText().toString().isEmpty()){
+            originalSpell.setCharges(Integer.parseInt(mCharges.getText().toString()));
         }
     }
 
@@ -98,24 +97,24 @@ public class EditItemActivity extends AppCompatActivity {
     }
 
     private void wireupDisplay(){
-        mName = binding.itemNameEditText;
-        mName.setHint("Name: " + originalItem.getName());
-        mDesc = binding.itemDescEditText;
-        mDesc.setHint("Description: " + originalItem.getDescription());
-        mAbilities = binding.itemAbilitiesEditText;
-        mAbilities.setHint("Abilities: " + originalItem.getAbilities());
-        mAmountHeld = binding.itemAmountEditText;
-        mAmountHeld.setHint("Amount: " + originalItem.getAmountHeld());
+        mName = binding.spellNameEditText;
+        mName.setHint("Name: " + originalSpell.getName());
+        mDesc = binding.spellDescEditText;
+        mDesc.setHint("Description: " + originalSpell.getDescription());
+        mDamage = binding.spellDamageEditText;
+        mDamage.setHint("Damage: " + originalSpell.getDamage());
+        mCharges = binding.spellChargesEditText;
+        mCharges.setHint("Charges: " + originalSpell.getCharges());
         mSaveButton = binding.saveButton;
         mBackButton = binding.backButton;
     }
 
 
-    public static Intent IntentFactory(Context context, int userID, int characterID, int itemID) {
-        Intent intent = new Intent(context, EditItemActivity.class);
-        intent.putExtra(EDIT_ITEM_ID, userID);
-        intent.putExtra(EDIT_ITEM_ID,characterID);
-        intent.putExtra(EDIT_ITEM_ID,itemID);
+    public static Intent IntentFactory(Context context, int userID, int characterID, int spellID) {
+        Intent intent = new Intent(context, EditSpellActivity.class);
+        intent.putExtra(EDIT_SPELL_ID, userID);
+        intent.putExtra(EDIT_SPELL_ID,characterID);
+        intent.putExtra(EDIT_SPELL_ID,spellID);
         return intent;
     }
 }

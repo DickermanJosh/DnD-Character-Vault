@@ -12,6 +12,18 @@
         android:theme="@style/Theme.DnD_Character_Vault"
         tools:targetApi="31">
         <activity
+            android:name=".WeaponCreateActivity"
+            android:exported="false" />
+        <activity
+            android:name=".EditWeaponActivity"
+            android:exported="false" />
+        <activity
+            android:name=".SpellCreateActivity"
+            android:exported="false" />
+        <activity
+            android:name=".EditSpellActivity"
+            android:exported="false" />
+        <activity
             android:name=".ItemCreateActivity"
             android:exported="false" />
         <activity

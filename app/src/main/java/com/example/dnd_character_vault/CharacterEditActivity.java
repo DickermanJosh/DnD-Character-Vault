@@ -45,11 +45,15 @@ public class CharacterEditActivity extends AppCompatActivity {
     private Character currentCharacter;
     public static int characterID;
     public static int selectedItemID;
+    public static int selectedSpellID;
+    public static int selectedWeaponID;
     private List<String> characterAttributesList = new ArrayList<>();
     private List<String> characterItemsList = new ArrayList<>();
     private List<String> characterWeaponsList = new ArrayList<>();
     private List<String> characterSpellList = new ArrayList<>();
     Map<Integer,Integer> itemIDtoPositionMap = new HashMap<>();
+    Map<Integer,Integer> spellIDtoPositionMap = new HashMap<>();
+    Map<Integer,Integer> weaponIDtoPositionMap = new HashMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -538,10 +542,8 @@ public class CharacterEditActivity extends AppCompatActivity {
                     mItems.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
                         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                            //TODO: Click items
 
                             selectedItemID = itemIDtoPositionMap.get(i);
-                            //characterID = itemIDtoPositionMap.get(i);
 
                             Intent intent = EditItemActivity.IntentFactory(getApplicationContext(),
                                     MainActivity.currentUser.getLogId(),characterID,selectedItemID);
@@ -553,6 +555,68 @@ public class CharacterEditActivity extends AppCompatActivity {
                         @Override
                         public void onClick(View view) {
                             Intent intent = ItemCreateActivity.IntentFactory(getApplicationContext(),
+                                    MainActivity.currentUser.getLogId(),characterID);
+                            startActivity(intent);
+                        }
+                    });
+
+                } else if(i == 24){ // Spells
+                    //mCharacterAttributes.setVisibility(View.INVISIBLE);
+                    mEditCharacterStat.setVisibility(View.INVISIBLE);
+                    mSaveButton.setVisibility(View.INVISIBLE);
+                    mEditCharacterStat.getText().clear();
+                    mSpells.setVisibility(View.VISIBLE);
+                    mAddToListButton.setVisibility(View.VISIBLE);
+                    mAddToListButton.setText("Add a New Spell");
+                    setupSpellsList();
+
+                    mItems.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                            selectedSpellID = spellIDtoPositionMap.get(i);
+
+                            Intent intent = EditSpellActivity.IntentFactory(getApplicationContext(),
+                                    MainActivity.currentUser.getLogId(),characterID,selectedSpellID);
+                            startActivity(intent);
+                        }
+                    });
+
+                    mAddToListButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Intent intent = SpellCreateActivity.IntentFactory(getApplicationContext(),
+                                    MainActivity.currentUser.getLogId(),characterID);
+                            startActivity(intent);
+                        }
+                    });
+
+                } else if(i == 25){ // Weapons
+                    //mCharacterAttributes.setVisibility(View.INVISIBLE);
+                    mEditCharacterStat.setVisibility(View.INVISIBLE);
+                    mSaveButton.setVisibility(View.INVISIBLE);
+                    mEditCharacterStat.getText().clear();
+                    mWeapons.setVisibility(View.VISIBLE);
+                    mAddToListButton.setVisibility(View.VISIBLE);
+                    mAddToListButton.setText("Add a New Weapon");
+                    setupWeaponsList();
+
+                    mItems.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                            selectedWeaponID = weaponIDtoPositionMap.get(i);
+
+                            Intent intent = EditWeaponActivity.IntentFactory(getApplicationContext(),
+                                    MainActivity.currentUser.getLogId(),characterID,selectedWeaponID);
+                            startActivity(intent);
+                        }
+                    });
+
+                    mAddToListButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Intent intent = WeaponCreateActivity.IntentFactory(getApplicationContext(),
                                     MainActivity.currentUser.getLogId(),characterID);
                             startActivity(intent);
                         }
@@ -609,7 +673,50 @@ public class CharacterEditActivity extends AppCompatActivity {
 
         ArrayAdapter arrayAdapter = new ArrayAdapter(getApplicationContext(), android.R.layout.simple_list_item_1,characterItemsList);
         mItems.setAdapter(arrayAdapter);
+    }
 
+    private void setupSpellsList(){
+        characterSpellList.clear();
+        spellIDtoPositionMap.clear();
+
+        List<Spell> userSpells = mDnDVaultDAO.getSpellListByUserID(MainActivity.currentUser.getLogId());
+        List<Spell> potentialCharacterSpells = mDnDVaultDAO.getSpellsByCharacterID(characterID);
+
+        for(int i = 0; i < userSpells.size(); i++){
+
+            for(int k = 0; k < potentialCharacterSpells.size(); k++){
+                if(potentialCharacterSpells.get(k).equals(userSpells.get(i))){
+                    characterItemsList.add(potentialCharacterSpells.get(k).toString());
+                    itemIDtoPositionMap.put(characterItemsList.size()-1,potentialCharacterSpells.get(k).getItemId());
+                    break;
+                }
+            }
+        }
+
+        ArrayAdapter arrayAdapter = new ArrayAdapter(getApplicationContext(), android.R.layout.simple_list_item_1,characterSpellList);
+        mSpells.setAdapter(arrayAdapter);
+    }
+
+    private void setupWeaponsList(){
+        characterWeaponsList.clear();
+        weaponIDtoPositionMap.clear();
+
+        List<Weapon> userWeapons = mDnDVaultDAO.getWeaponListByUserID(MainActivity.currentUser.getLogId());
+        List<Weapon> potentialCharacterWeapons = mDnDVaultDAO.getWeaponsByCharacterID(characterID);
+
+        for(int i = 0; i < userWeapons.size(); i++){
+
+            for(int k = 0; k < potentialCharacterWeapons.size(); k++){
+                if(potentialCharacterWeapons.get(k).equals(userWeapons.get(i))){
+                    characterItemsList.add(potentialCharacterWeapons.get(k).toString());
+                    itemIDtoPositionMap.put(characterItemsList.size()-1,potentialCharacterWeapons.get(k).getItemId());
+                    break;
+                }
+            }
+        }
+
+        ArrayAdapter arrayAdapter = new ArrayAdapter(getApplicationContext(), android.R.layout.simple_list_item_1,characterWeaponsList);
+        mWeapons.setAdapter(arrayAdapter);
     }
 
     private void getCharacter() {
