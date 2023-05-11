@@ -5,50 +5,39 @@ import androidx.room.PrimaryKey;
 
 import com.example.dnd_character_vault.DB.DnDAppDataBase;
 
-import java.util.Objects;
-
-@Entity(tableName = DnDAppDataBase.ITEM_TABLE)
-public class Item {
-
+@Entity(tableName = DnDAppDataBase.WEAPON_TABLE)
+public class Weapon {
     @PrimaryKey(autoGenerate = true)
-    private int mItemId;
+    private int mWeaponId;
 
     private int mCharacterID;
     private int mUserID;
     private String name;
+    private int damage;
     private String description;
     private String abilities;
     private int amountHeld;
 
-    public Item(int userID, int characterID, String name, String description, String abilities, int amountHeld) {
-        mUserID = userID;
+    public Weapon(int characterID, int userID, String name, int damage, String description, String abilities, int amountHeld) {
         mCharacterID = characterID;
+        mUserID = userID;
         this.name = name;
+        this.damage = damage;
         this.description = description;
         this.abilities = abilities;
         this.amountHeld = amountHeld;
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Item item = (Item) o;
-        return mItemId == item.mItemId && mCharacterID == item.mCharacterID && mUserID == item.mUserID;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(mItemId, mCharacterID, mUserID);
-    }
-
-    @Override
     public String toString() {
-        return name + ", ID: " + getItemId();
+        return name + ", ID: " + getWeaponId();
+    }
+    public int getWeaponId() {
+        return mWeaponId;
     }
 
-    public void setItemId(int itemId) {
-        this.mItemId = itemId;
+    public void setWeaponId(int weaponId) {
+        mWeaponId = weaponId;
     }
 
     public int getCharacterID() {
@@ -56,7 +45,7 @@ public class Item {
     }
 
     public void setCharacterID(int characterID) {
-        this.mCharacterID = characterID;
+        mCharacterID = characterID;
     }
 
     public int getUserID() {
@@ -64,11 +53,7 @@ public class Item {
     }
 
     public void setUserID(int userID) {
-        this.mUserID = userID;
-    }
-
-    public int getItemId() {
-        return mItemId;
+        mUserID = userID;
     }
 
     public String getName() {
@@ -77,6 +62,14 @@ public class Item {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public int getDamage() {
+        return damage;
+    }
+
+    public void setDamage(int damage) {
+        this.damage = damage;
     }
 
     public String getDescription() {

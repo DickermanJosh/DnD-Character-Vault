@@ -20,7 +20,10 @@ import com.example.dnd_character_vault.databinding.ActivityCharacterCreateBindin
 import com.example.dnd_character_vault.databinding.ActivityCharacterEditBinding;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class CharacterEditActivity extends AppCompatActivity {
 
@@ -29,14 +32,24 @@ public class CharacterEditActivity extends AppCompatActivity {
     ActivityCharacterEditBinding binding;
 
     private ListView mCharacterAttributes;
+    private ListView mItems;
+    private ListView mSpells;
+    private ListView mWeapons;
     private Button mBackButton;
     private Button mSaveButton;
+    private Button mAddToListButton;
     private EditText mEditCharacterStat;
 
     private DnDVaultDAO mDnDVaultDAO;
 
     private Character currentCharacter;
+    public static int characterID;
+    public static int selectedItemID;
     private List<String> characterAttributesList = new ArrayList<>();
+    private List<String> characterItemsList = new ArrayList<>();
+    private List<String> characterWeaponsList = new ArrayList<>();
+    private List<String> characterSpellList = new ArrayList<>();
+    Map<Integer,Integer> itemIDtoPositionMap = new HashMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,8 +60,12 @@ public class CharacterEditActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         mCharacterAttributes = binding.characterListview;
+        mItems = binding.itemListview;
+        mSpells = binding.spellListview;
+        mWeapons = binding.weaponListview;
         mBackButton = binding.backButton;
         mSaveButton = binding.saveButton;
+        mAddToListButton = binding.addToListButton;
         mEditCharacterStat = binding.editCharacterStat;
 
         setupDatabase();
@@ -56,6 +73,8 @@ public class CharacterEditActivity extends AppCompatActivity {
         getCharacter();
 
         setupList();
+
+        setupItemsList();
 
         mCharacterAttributes.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -65,17 +84,11 @@ public class CharacterEditActivity extends AppCompatActivity {
                 mEditCharacterStat.setVisibility(View.VISIBLE);
                 mSaveButton.setVisibility(View.VISIBLE);
                 mEditCharacterStat.setHint(characterAttributesList.get(i));
-                mBackButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        //TODO: Add save confirmation
-                        mCharacterAttributes.setVisibility(View.VISIBLE);
-                        mEditCharacterStat.setVisibility(View.INVISIBLE);
-                        mSaveButton.setVisibility(View.INVISIBLE);
-                        setupList();
-                    }
-                });
+                mEditCharacterStat.getText().clear();
 
+                // I'm aware that all these if statements are pretty gross
+                // but I couldn't think of another way to access all the setters
+                // that wasn't needlessly complicated
                 if(i == 0){
                     mSaveButton.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -92,18 +105,463 @@ public class CharacterEditActivity extends AppCompatActivity {
                     });
 
                 } else if(i == 1){
+                    mSaveButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+
+                            if(!mEditCharacterStat.getText().toString().isEmpty()) {
+                                currentCharacter.setRace(mEditCharacterStat.getText().toString());
+                                mDnDVaultDAO.update(currentCharacter);
+                                showToast("Race change saved successfully");
+                            } else{
+                                showToast("You haven't made any changes!");
+                            }
+                        }
+                    });
 
                 } else if(i == 2){
+                    mSaveButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+
+                            if(!mEditCharacterStat.getText().toString().isEmpty()) {
+                                currentCharacter.setCharacterClass(mEditCharacterStat.getText().toString());
+                                mDnDVaultDAO.update(currentCharacter);
+                                showToast("Class change saved successfully");
+                            } else{
+                                showToast("You haven't made any changes!");
+                            }
+                        }
+                    });
 
                 } else if(i == 3){
+                    mSaveButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+
+                            if(!mEditCharacterStat.getText().toString().isEmpty()) {
+                                currentCharacter.setSubClass(mEditCharacterStat.getText().toString());
+                                mDnDVaultDAO.update(currentCharacter);
+                                showToast("SubClass change saved successfully");
+                            } else{
+                                showToast("You haven't made any changes!");
+                            }
+                        }
+                    });
 
                 } else if(i == 4){
+                    mSaveButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+
+                            if(!mEditCharacterStat.getText().toString().isEmpty()) {
+                                currentCharacter.setBackStory(mEditCharacterStat.getText().toString());
+                                mDnDVaultDAO.update(currentCharacter);
+                                showToast("Backstory change saved successfully");
+                            } else{
+                                showToast("You haven't made any changes!");
+                            }
+                        }
+                    });
 
                 } else if(i == 5){
+                    mSaveButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+
+                            if(!mEditCharacterStat.getText().toString().isEmpty()) {
+                                currentCharacter.setTraits(mEditCharacterStat.getText().toString());
+                                mDnDVaultDAO.update(currentCharacter);
+                                showToast("Traits change saved successfully");
+                            } else{
+                                showToast("You haven't made any changes!");
+                            }
+                        }
+                    });
 
                 } else if(i == 6){
+                    mSaveButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+
+                            if(!mEditCharacterStat.getText().toString().isEmpty()) {
+                                currentCharacter.setIdeals(mEditCharacterStat.getText().toString());
+                                mDnDVaultDAO.update(currentCharacter);
+                                showToast("Ideals change saved successfully");
+                            } else{
+                                showToast("You haven't made any changes!");
+                            }
+                        }
+                    });
+
+                } else if(i == 7){
+                    mSaveButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+
+                            if(!mEditCharacterStat.getText().toString().isEmpty()) {
+                                currentCharacter.setBonds(mEditCharacterStat.getText().toString());
+                                mDnDVaultDAO.update(currentCharacter);
+                                showToast("Bonds change saved successfully");
+                            } else{
+                                showToast("You haven't made any changes!");
+                            }
+                        }
+                    });
+
+                } else if(i == 8){
+                    mSaveButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+
+                            if(!mEditCharacterStat.getText().toString().isEmpty()) {
+                                currentCharacter.setFlaws(mEditCharacterStat.getText().toString());
+                                mDnDVaultDAO.update(currentCharacter);
+                                showToast("Flaws change saved successfully");
+                            } else{
+                                showToast("You haven't made any changes!");
+                            }
+                        }
+                    });
+
+                } else if(i == 9){
+                    mSaveButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+
+                            if(!mEditCharacterStat.getText().toString().isEmpty()) {
+                                currentCharacter.setFeatures(mEditCharacterStat.getText().toString());
+                                mDnDVaultDAO.update(currentCharacter);
+                                showToast("Features change saved successfully");
+                            } else{
+                                showToast("You haven't made any changes!");
+                            }
+                        }
+                    });
+
+                } else if(i == 10){
+                    mSaveButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+
+                            if(!mEditCharacterStat.getText().toString().isEmpty()) {
+
+                                try{
+                                    int number = Integer.parseInt(mEditCharacterStat.getText().toString());
+                                    currentCharacter.setLevel(number);
+                                    mDnDVaultDAO.update(currentCharacter);
+                                } catch(NumberFormatException e){
+                                    showToast("Please enter a valid number");
+                                }
+
+                                showToast("Level change saved successfully");
+                            } else{
+                                showToast("You haven't made any changes!");
+                            }
+                        }
+                    });
+
+                } else if(i == 11){
+                    mSaveButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+
+                            if(!mEditCharacterStat.getText().toString().isEmpty()) {
+
+                                try{
+                                    int number = Integer.parseInt(mEditCharacterStat.getText().toString());
+                                    currentCharacter.setHitPoints(number);
+                                    mDnDVaultDAO.update(currentCharacter);
+                                } catch(NumberFormatException e){
+                                    showToast("Please enter a valid number");
+                                }
+
+                                showToast("HP change saved successfully");
+                            } else{
+                                showToast("You haven't made any changes!");
+                            }
+                        }
+                    });
+
+                }  else if(i == 12){
+                    mSaveButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+
+                            if(!mEditCharacterStat.getText().toString().isEmpty()) {
+
+                                try{
+                                    int number = Integer.parseInt(mEditCharacterStat.getText().toString());
+                                    currentCharacter.setMaxHitPoints(number);
+                                    mDnDVaultDAO.update(currentCharacter);
+                                } catch(NumberFormatException e){
+                                    showToast("Please enter a valid number");
+                                }
+
+                                showToast("MaxHP change saved successfully");
+                            } else{
+                                showToast("You haven't made any changes!");
+                            }
+                        }
+                    });
+
+                }  else if(i == 13){
+                    mSaveButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+
+                            if(!mEditCharacterStat.getText().toString().isEmpty()) {
+
+                                try{
+                                    int number = Integer.parseInt(mEditCharacterStat.getText().toString());
+                                    currentCharacter.setStrength(number);
+                                    mDnDVaultDAO.update(currentCharacter);
+                                } catch(NumberFormatException e){
+                                    showToast("Please enter a valid number");
+                                }
+
+                                showToast("Strength change saved successfully");
+                            } else{
+                                showToast("You haven't made any changes!");
+                            }
+                        }
+                    });
+
+                } else if(i == 14){
+                    mSaveButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+
+                            if(!mEditCharacterStat.getText().toString().isEmpty()) {
+
+                                try{
+                                    int number = Integer.parseInt(mEditCharacterStat.getText().toString());
+                                    currentCharacter.setDexterity(number);
+                                    mDnDVaultDAO.update(currentCharacter);
+                                } catch(NumberFormatException e){
+                                    showToast("Please enter a valid number");
+                                }
+
+                                showToast("Dexterity change saved successfully");
+                            } else{
+                                showToast("You haven't made any changes!");
+                            }
+                        }
+                    });
+
+                }  else if(i == 15){
+                    mSaveButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+
+                            if(!mEditCharacterStat.getText().toString().isEmpty()) {
+
+                                try{
+                                    int number = Integer.parseInt(mEditCharacterStat.getText().toString());
+                                    currentCharacter.setConstitution(number);
+                                    mDnDVaultDAO.update(currentCharacter);
+                                } catch(NumberFormatException e){
+                                    showToast("Please enter a valid number");
+                                }
+
+                                showToast("Constitution change saved successfully");
+                            } else{
+                                showToast("You haven't made any changes!");
+                            }
+                        }
+                    });
+
+                } else if(i == 16){
+                    mSaveButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+
+                            if(!mEditCharacterStat.getText().toString().isEmpty()) {
+
+                                try{
+                                    int number = Integer.parseInt(mEditCharacterStat.getText().toString());
+                                    currentCharacter.setIntelligence(number);
+                                    mDnDVaultDAO.update(currentCharacter);
+                                } catch(NumberFormatException e){
+                                    showToast("Please enter a valid number");
+                                }
+
+                                showToast("Intelligence change saved successfully");
+                            } else{
+                                showToast("You haven't made any changes!");
+                            }
+                        }
+                    });
+
+                }  else if(i == 17){
+                    mSaveButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+
+                            if(!mEditCharacterStat.getText().toString().isEmpty()) {
+
+                                try{
+                                    int number = Integer.parseInt(mEditCharacterStat.getText().toString());
+                                    currentCharacter.setWisdom(number);
+                                    mDnDVaultDAO.update(currentCharacter);
+                                } catch(NumberFormatException e){
+                                    showToast("Please enter a valid number");
+                                }
+
+                                showToast("Wisdom change saved successfully");
+                            } else{
+                                showToast("You haven't made any changes!");
+                            }
+                        }
+                    });
+
+                } else if(i == 18){
+                    mSaveButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+
+                            if(!mEditCharacterStat.getText().toString().isEmpty()) {
+
+                                try{
+                                    int number = Integer.parseInt(mEditCharacterStat.getText().toString());
+                                    currentCharacter.setCharisma(number);
+                                    mDnDVaultDAO.update(currentCharacter);
+                                } catch(NumberFormatException e){
+                                    showToast("Please enter a valid number");
+                                }
+
+                                showToast("Charisma change saved successfully");
+                            } else{
+                                showToast("You haven't made any changes!");
+                            }
+                        }
+                    });
+
+                } else if(i == 19){
+                    mSaveButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+
+                            if(!mEditCharacterStat.getText().toString().isEmpty()) {
+
+                                try{
+                                    int number = Integer.parseInt(mEditCharacterStat.getText().toString());
+                                    currentCharacter.setArmorClass(number);
+                                    mDnDVaultDAO.update(currentCharacter);
+                                } catch(NumberFormatException e){
+                                    showToast("Please enter a valid number");
+                                }
+
+                                showToast("Armor Class change saved successfully");
+                            } else{
+                                showToast("You haven't made any changes!");
+                            }
+                        }
+                    });
+
+                } else if(i == 20){
+                    mSaveButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+
+                            if(!mEditCharacterStat.getText().toString().isEmpty()) {
+
+                                try{
+                                    int number = Integer.parseInt(mEditCharacterStat.getText().toString());
+                                    currentCharacter.setInitiative(number);
+                                    mDnDVaultDAO.update(currentCharacter);
+                                } catch(NumberFormatException e){
+                                    showToast("Please enter a valid number");
+                                }
+
+                                showToast("Initiative change saved successfully");
+                            } else{
+                                showToast("You haven't made any changes!");
+                            }
+                        }
+                    });
+
+                }  else if(i == 21){
+                    mSaveButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+
+                            if(!mEditCharacterStat.getText().toString().isEmpty()) {
+
+                                try{
+                                    int number = Integer.parseInt(mEditCharacterStat.getText().toString());
+                                    currentCharacter.setInspiration(number);
+                                    mDnDVaultDAO.update(currentCharacter);
+                                } catch(NumberFormatException e){
+                                    showToast("Please enter a valid number");
+                                }
+
+                                showToast("Inspiration change saved successfully");
+                            } else{
+                                showToast("You haven't made any changes!");
+                            }
+                        }
+                    });
+
+                } else if(i == 22){
+                    mSaveButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+
+                            if(!mEditCharacterStat.getText().toString().isEmpty()) {
+
+                                try{
+                                    int number = Integer.parseInt(mEditCharacterStat.getText().toString());
+                                    currentCharacter.setProficiencyBonus(number);
+                                    mDnDVaultDAO.update(currentCharacter);
+                                } catch(NumberFormatException e){
+                                    showToast("Please enter a valid number");
+                                }
+
+                                showToast("Proficiency Bonus change saved successfully");
+                            } else{
+                                showToast("You haven't made any changes!");
+                            }
+                        }
+                    });
+
+                } else if(i == 23){ // Items
+                    //mCharacterAttributes.setVisibility(View.INVISIBLE);
+                    mEditCharacterStat.setVisibility(View.INVISIBLE);
+                    mSaveButton.setVisibility(View.INVISIBLE);
+                    mEditCharacterStat.getText().clear();
+                    mItems.setVisibility(View.VISIBLE);
+                    mAddToListButton.setVisibility(View.VISIBLE);
+                    mAddToListButton.setText("Add a New Item");
+                    setupItemsList();
+
+                    mItems.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                            //TODO: Click items
+
+                            selectedItemID = itemIDtoPositionMap.get(i);
+                            //characterID = itemIDtoPositionMap.get(i);
+
+                            Intent intent = EditItemActivity.IntentFactory(getApplicationContext(),
+                                    MainActivity.currentUser.getLogId(),characterID,selectedItemID);
+                            startActivity(intent);
+                        }
+                    });
+
+                    mAddToListButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Intent intent = ItemCreateActivity.IntentFactory(getApplicationContext(),
+                                    MainActivity.currentUser.getLogId(),characterID);
+                            startActivity(intent);
+                        }
+                    });
 
                 }
+
+
+
 
             }
         });
@@ -111,11 +569,47 @@ public class CharacterEditActivity extends AppCompatActivity {
         mBackButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO: Add save confirmation
-                Intent intent = CharacterSelectActivity.IntentFactory(getApplicationContext(),MainActivity.currentUser.getLogId());
-                startActivity(intent);
+
+                if(mCharacterAttributes.getVisibility() == View.INVISIBLE){
+
+                    Intent intent = CharacterEditActivity.IntentFactory(getApplicationContext(),
+                            MainActivity.currentUser.getLogId(),
+                            CharacterEditActivity.characterID);
+
+                    startActivity(intent);
+
+                } else{
+                    Intent intent = CharacterSelectActivity.IntentFactory(getApplicationContext(),MainActivity.currentUser.getLogId());
+                    startActivity(intent);
+                    setupList();
+                }
             }
         });
+
+    }
+
+    private void setupItemsList() {
+
+        characterItemsList.clear();
+        itemIDtoPositionMap.clear();
+
+        List<Item> userItems = mDnDVaultDAO.getItemListByUserID(MainActivity.currentUser.getLogId());
+        List<Item> potentialCharacterItems = mDnDVaultDAO.getItemByCharacterID(characterID);
+
+        for(int i = 0; i < userItems.size(); i++){
+
+            for(int k = 0; k < potentialCharacterItems.size(); k++){
+                if(potentialCharacterItems.get(k).equals(userItems.get(i))){
+                    characterItemsList.add(potentialCharacterItems.get(k).toString());
+                    itemIDtoPositionMap.put(characterItemsList.size()-1,potentialCharacterItems.get(k).getItemId());
+                    break;
+                }
+            }
+        }
+
+        ArrayAdapter arrayAdapter = new ArrayAdapter(getApplicationContext(), android.R.layout.simple_list_item_1,characterItemsList);
+        mItems.setAdapter(arrayAdapter);
+
     }
 
     private void getCharacter() {
@@ -124,12 +618,14 @@ public class CharacterEditActivity extends AppCompatActivity {
         for (int i = 0; i < characterList.size(); i++){
             if (characterList.get(i).getCharacterID() == CharacterSelectActivity.characterID){
                 currentCharacter = characterList.get(i);
+                characterID = currentCharacter.getCharacterID();
                 break;
             }
         }
     }
 
     private void setupList(){
+        characterAttributesList.clear();
         characterAttributesList.add("Name: " + currentCharacter.getName());
         characterAttributesList.add("Race: " + currentCharacter.getRace());
         characterAttributesList.add("Class: " + currentCharacter.getCharacterClass());
@@ -153,7 +649,9 @@ public class CharacterEditActivity extends AppCompatActivity {
         characterAttributesList.add("Initiative: " + currentCharacter.getInitiative());
         characterAttributesList.add("Inspiration: " + currentCharacter.getInspiration());
         characterAttributesList.add("ProficiencyBonus: " + currentCharacter.getProficiencyBonus());
-        characterAttributesList.add("Spells: " + currentCharacter.getSpells());
+        characterAttributesList.add("Items: ");
+        characterAttributesList.add("Spells: ");
+        characterAttributesList.add("Weapons: ");
 
         ArrayAdapter arrayAdapter = new ArrayAdapter(getApplicationContext(), android.R.layout.simple_list_item_1,characterAttributesList);
         mCharacterAttributes.setAdapter(arrayAdapter);
