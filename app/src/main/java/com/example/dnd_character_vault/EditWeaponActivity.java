@@ -31,6 +31,7 @@ public class EditWeaponActivity extends AppCompatActivity {
 
     private Button mSaveButton;
     private Button mBackButton;
+    private Button mDeleteButton;
 
     private Weapon originalWeapon;
 
@@ -66,6 +67,19 @@ public class EditWeaponActivity extends AppCompatActivity {
         mBackButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Intent intent = CharacterEditActivity.IntentFactory(getApplicationContext(),
+                        MainActivity.currentUser.getLogId(),
+                        CharacterEditActivity.characterID);
+                startActivity(intent);
+            }
+        });
+
+        mDeleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mDnDVaultDAO.delete(originalWeapon);
+                showToast(originalWeapon.getName() + " successfully deleted");
+
                 Intent intent = CharacterEditActivity.IntentFactory(getApplicationContext(),
                         MainActivity.currentUser.getLogId(),
                         CharacterEditActivity.characterID);
@@ -115,6 +129,7 @@ public class EditWeaponActivity extends AppCompatActivity {
         mAmountHeld.setHint("Amount Held: " + originalWeapon.getAmountHeld());
         mSaveButton = binding.saveButton;
         mBackButton = binding.backButton;
+        mDeleteButton = binding.deleteWeaponButton;
     }
 
 

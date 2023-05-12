@@ -28,6 +28,7 @@ public class EditSpellActivity extends AppCompatActivity {
 
     private Button mSaveButton;
     private Button mBackButton;
+    private Button mDelete;
 
     private Spell originalSpell;
 
@@ -63,6 +64,19 @@ public class EditSpellActivity extends AppCompatActivity {
         mBackButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Intent intent = CharacterEditActivity.IntentFactory(getApplicationContext(),
+                        MainActivity.currentUser.getLogId(),
+                        CharacterEditActivity.characterID);
+                startActivity(intent);
+            }
+        });
+
+        mDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mDnDVaultDAO.delete(originalSpell);
+                showToast(originalSpell.getName() + " successfully deleted");
+
                 Intent intent = CharacterEditActivity.IntentFactory(getApplicationContext(),
                         MainActivity.currentUser.getLogId(),
                         CharacterEditActivity.characterID);
@@ -107,6 +121,7 @@ public class EditSpellActivity extends AppCompatActivity {
         mCharges.setHint("Charges: " + originalSpell.getCharges());
         mSaveButton = binding.saveButton;
         mBackButton = binding.backButton;
+        mDelete = binding.deleteSpellButton;
     }
 
 

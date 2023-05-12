@@ -38,6 +38,7 @@
         android:layout_height="64dp"
         android:gravity="center"
         android:hint="Spell Damage"
+        android:inputType="number"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.071"
@@ -70,6 +71,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/spell_damage_editText"
         app:layout_constraintVertical_bias="0.225" />
+
+    <Button
+        android:id="@+id/delete_spell_button"
+        android:layout_width="114dp"
+        android:layout_height="69dp"
+        android:text="Delete Spell"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.141"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spell_damage_editText"
+        app:layout_constraintVertical_bias="0.452" />
 
     <Button
         android:id="@+id/save_button"
