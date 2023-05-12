@@ -12,6 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.dnd_character_vault.DB.DnDAppDataBase;
 import com.example.dnd_character_vault.DB.DnDVaultDAO;
@@ -38,7 +39,7 @@ public class AdminMenuActivity extends AppCompatActivity {
     private List<User> mAllUsers = new ArrayList<>();
     private Map<Integer,Integer> userIDtoListPositionMap = new HashMap<>();
 
-    private int selectedUserID;
+    private int selectedUserID = -999;
     private DnDVaultDAO mDnDVaultDAO;
 
     @Override
@@ -47,7 +48,7 @@ public class AdminMenuActivity extends AppCompatActivity {
         setContentView(R.layout.activity_admin_menu);
         binding = ActivityAdminMenuBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        mDeleteUserButton.setVisibility(View.INVISIBLE);
+
 
         setupDataBase();
 
@@ -55,11 +56,44 @@ public class AdminMenuActivity extends AppCompatActivity {
 
         displayUserList();
 
+        mDeleteUserButton.setVisibility(View.INVISIBLE);
+
         mUserList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 selectedUserID = userIDtoListPositionMap.get(i);
+                mDeleteUserButton.setVisibility(View.VISIBLE);
+                mDeleteUserButton.setText("Delete User with ID: " + selectedUserID);
+            }
+        });
 
+        mDeleteUserButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(selectedUserID != -999){
+                    showToast("Deleting User: " + mDnDVaultDAO.getUserByUserId(selectedUserID).toString());
+                    mDnDVaultDAO.delete(mDnDVaultDAO.getUserByUserId(selectedUserID));
+                    mDeleteUserButton.setVisibility(View.INVISIBLE);
+                    displayUserList();
+                }
+            }
+        });
+
+        mCreateUserButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = AdminCreateUserActivity.IntentFactory(getApplicationContext(),
+                        MainActivity.currentUser.getLogId());
+                startActivity(intent);
+            }
+        });
+
+        mBackButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = LandingActivity.IntentFactory(getApplicationContext(),
+                        MainActivity.currentUser.getLogId());
+                startActivity(intent);
             }
         });
     }
@@ -95,5 +129,9 @@ public class AdminMenuActivity extends AppCompatActivity {
         Intent intent = new Intent(context, AdminMenuActivity.class);
         intent.putExtra(ADMIN_MENU_ID,userID);
         return intent;
+    }
+
+    private void showToast(String msg){
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
     }
 }
