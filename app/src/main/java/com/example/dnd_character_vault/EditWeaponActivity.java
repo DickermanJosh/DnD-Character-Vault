@@ -13,24 +13,26 @@ import android.widget.Toast;
 
 import com.example.dnd_character_vault.DB.DnDAppDataBase;
 import com.example.dnd_character_vault.DB.DnDVaultDAO;
-import com.example.dnd_character_vault.databinding.ActivityCreateAccountPageBinding;
-import com.example.dnd_character_vault.databinding.ActivityEditItemBinding;
+import com.example.dnd_character_vault.databinding.ActivityEditSpellBinding;
+import com.example.dnd_character_vault.databinding.ActivityEditWeaponBinding;
 
-public class EditItemActivity extends AppCompatActivity {
+public class EditWeaponActivity extends AppCompatActivity {
 
-    private static final String EDIT_ITEM_ID = "com.example.dnd_character_vault.ItemEditID";
 
-    ActivityEditItemBinding binding;
+    private static final String EDIT_WEAPON_ID = "com.example.dnd_character_vault.WeaponEditID";
+
+    ActivityEditWeaponBinding binding;
 
     private EditText mName;
     private EditText mDesc;
+    private EditText mDamage;
     private EditText mAbilities;
     private EditText mAmountHeld;
 
     private Button mSaveButton;
     private Button mBackButton;
 
-    private Item originalItem;
+    private Weapon originalWeapon;
 
     private DnDVaultDAO mDnDVaultDAO;
 
@@ -38,14 +40,14 @@ public class EditItemActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_edit_item);
+        setContentView(R.layout.activity_edit_weapon);
 
-        binding = ActivityEditItemBinding.inflate(getLayoutInflater());
+        binding = ActivityEditWeaponBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         setupDB();
 
-        originalItem = mDnDVaultDAO.getItemByItemID(CharacterEditActivity.selectedItemID);
+        originalWeapon = mDnDVaultDAO.getWeaponByWeaponID(CharacterEditActivity.selectedWeaponID);
 
         wireupDisplay();
 
@@ -55,9 +57,9 @@ public class EditItemActivity extends AppCompatActivity {
 
                 verifyFields();
 
-                mDnDVaultDAO.update(originalItem);
+                mDnDVaultDAO.update(originalWeapon);
 
-                showToast("Item successfully updated");
+                showToast("Weapon successfully updated");
             }
         });
 
@@ -75,16 +77,19 @@ public class EditItemActivity extends AppCompatActivity {
     private void verifyFields() {
 
         if(!mName.getText().toString().isEmpty()){
-            originalItem.setName(mName.getText().toString());
+            originalWeapon.setName(mName.getText().toString());
         }
         if(!mDesc.getText().toString().isEmpty()){
-            originalItem.setDescription(mDesc.getText().toString());
+            originalWeapon.setDescription(mDesc.getText().toString());
+        }
+        if(!mDamage.getText().toString().isEmpty()){
+            originalWeapon.setDamage(Integer.parseInt(mDamage.getText().toString()));
         }
         if(!mAbilities.getText().toString().isEmpty()){
-            originalItem.setAbilities(mAbilities.getText().toString());
+            originalWeapon.setAbilities(mAbilities.getText().toString());
         }
         if(!mAmountHeld.getText().toString().isEmpty()){
-            originalItem.setAmountHeld(Integer.parseInt(mAmountHeld.getText().toString()));
+            originalWeapon.setAmountHeld(Integer.parseInt(mAmountHeld.getText().toString()));
         }
     }
 
@@ -98,24 +103,26 @@ public class EditItemActivity extends AppCompatActivity {
     }
 
     private void wireupDisplay(){
-        mName = binding.itemNameEditText;
-        mName.setHint("Name: " + originalItem.getName());
-        mDesc = binding.itemDescEditText;
-        mDesc.setHint("Description: " + originalItem.getDescription());
-        mAbilities = binding.itemAbilitiesEditText;
-        mAbilities.setHint("Abilities: " + originalItem.getAbilities());
-        mAmountHeld = binding.itemAmountEditText;
-        mAmountHeld.setHint("Amount: " + originalItem.getAmountHeld());
+        mName = binding.weaponNameEditText;
+        mName.setHint("Name: " + originalWeapon.getName());
+        mDesc = binding.weaponDescEditText;
+        mDesc.setHint("Description: " + originalWeapon.getDescription());
+        mAbilities = binding.weaponAbilitiesEditText;
+        mAbilities.setHint("Abilities: " + originalWeapon.getAbilities());
+        mDamage = binding.weaponDamageEditText;
+        mDamage.setHint("Damage: " + originalWeapon.getDamage());
+        mAmountHeld = binding.weaponAmountHeldEditText;
+        mAmountHeld.setHint("Amount Held: " + originalWeapon.getAmountHeld());
         mSaveButton = binding.saveButton;
         mBackButton = binding.backButton;
     }
 
 
-    public static Intent IntentFactory(Context context, int userID, int characterID, int itemID) {
-        Intent intent = new Intent(context, EditItemActivity.class);
-        intent.putExtra(EDIT_ITEM_ID, userID);
-        intent.putExtra(EDIT_ITEM_ID,characterID);
-        intent.putExtra(EDIT_ITEM_ID,itemID);
+    public static Intent IntentFactory(Context context, int userID, int characterID, int weaponID) {
+        Intent intent = new Intent(context, EditWeaponActivity.class);
+        intent.putExtra(EDIT_WEAPON_ID, userID);
+        intent.putExtra(EDIT_WEAPON_ID,characterID);
+        intent.putExtra(EDIT_WEAPON_ID,weaponID);
         return intent;
     }
 }

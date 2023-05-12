@@ -5,6 +5,8 @@ import androidx.room.PrimaryKey;
 
 import com.example.dnd_character_vault.DB.DnDAppDataBase;
 
+import java.util.Objects;
+
 @Entity(tableName = DnDAppDataBase.WEAPON_TABLE)
 public class Weapon {
     @PrimaryKey(autoGenerate = true)
@@ -18,14 +20,27 @@ public class Weapon {
     private String abilities;
     private int amountHeld;
 
-    public Weapon(int characterID, int userID, String name, int damage, String description, String abilities, int amountHeld) {
-        mCharacterID = characterID;
+    public Weapon(int userID, int characterID, String name, int damage, String description, String abilities, int amountHeld) {
         mUserID = userID;
+        mCharacterID = characterID;
         this.name = name;
         this.damage = damage;
         this.description = description;
         this.abilities = abilities;
         this.amountHeld = amountHeld;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Weapon weapon = (Weapon) o;
+        return mWeaponId == weapon.mWeaponId && mCharacterID == weapon.mCharacterID && mUserID == weapon.mUserID;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(mWeaponId, mCharacterID, mUserID);
     }
 
     @Override

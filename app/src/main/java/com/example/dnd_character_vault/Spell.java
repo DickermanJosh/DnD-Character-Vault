@@ -5,6 +5,8 @@ import androidx.room.PrimaryKey;
 
 import com.example.dnd_character_vault.DB.DnDAppDataBase;
 
+import java.util.Objects;
+
 @Entity(tableName = DnDAppDataBase.SPELL_TABLE)
 public class Spell {
 
@@ -18,9 +20,9 @@ public class Spell {
     private String description;
     private int charges;
 
-    public Spell(int characterID, int userID, String name, int damage, String description, int charges) {
-        mCharacterID = characterID;
+    public Spell(int userID, int characterID, String name, int damage, String description, int charges) {
         mUserID = userID;
+        mCharacterID = characterID;
         this.name = name;
         this.damage = damage;
         this.description = description;
@@ -30,6 +32,19 @@ public class Spell {
     @Override
     public String toString() {
         return name + ", ID: " + getSpellId();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Spell spell = (Spell) o;
+        return mSpellId == spell.mSpellId && mCharacterID == spell.mCharacterID && mUserID == spell.mUserID;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(mSpellId, mCharacterID, mUserID);
     }
 
     public int getSpellId() {
