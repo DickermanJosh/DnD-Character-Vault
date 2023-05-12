@@ -30,25 +30,6 @@ public class CharacterCreateActivity extends AppCompatActivity {
     private EditText mRace;
     private EditText mClass;
     private EditText mSubClass;
-    private EditText mLevel;
-    private EditText mMaxHP;
-    private EditText mStrength;
-    private EditText mDexterity;
-    private EditText mConstitution;
-    private EditText mIntelligence;
-    private EditText mWisdom;
-    private EditText mCharisma;
-    private EditText mArmorClass;
-    private EditText mInitiative;
-    private EditText mInspiration;
-    private EditText mProficiencyBonus;
-    private EditText mBackstory;
-    private EditText mTraits;
-    private EditText mIdeals;
-    private EditText mBonds;
-    private EditText mFlaws;
-    private EditText mFeatures;
-
     private Button mCreate;
     DnDVaultDAO mDnDVaultDAO;
 
@@ -77,24 +58,24 @@ public class CharacterCreateActivity extends AppCompatActivity {
                         mRace.getText().toString(),
                         mClass.getText().toString(),
                         mSubClass.getText().toString(),
-                        Integer.parseInt(mLevel.getText().toString()),
-                        Integer.parseInt(mMaxHP.getText().toString()),
-                        Integer.parseInt(mStrength.getText().toString()),
-                        Integer.parseInt(mDexterity.getText().toString()),
-                        Integer.parseInt(mConstitution.getText().toString()),
-                        Integer.parseInt(mIntelligence.getText().toString()),
-                        Integer.parseInt(mWisdom.getText().toString()),
-                        Integer.parseInt(mCharisma.getText().toString()),
-                        Integer.parseInt(mArmorClass.getText().toString()),
-                        Integer.parseInt(mInitiative.getText().toString()),
-                        Integer.parseInt(mInspiration.getText().toString()),
-                        Integer.parseInt(mProficiencyBonus.getText().toString()),
-                        mBackstory.getText().toString(),
-                        mTraits.getText().toString(),
-                        mIdeals.getText().toString(),
-                        mBonds.getText().toString(),
-                        mFlaws.getText().toString(),
-                        mFeatures.getText().toString()
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        "Empty",
+                        "Empty",
+                        "Empty",
+                        "Empty",
+                        "Empty",
+                        "Empty"
                 );
 
                 addCharacterToDB(newCharacter);
@@ -111,24 +92,6 @@ public class CharacterCreateActivity extends AppCompatActivity {
         mRace = binding.CreateCharacterRace;
         mClass = binding.CreateCharacterClass;
         mSubClass = binding.CreateCharacterSubclass;
-        mLevel = binding.CreateCharacterLevel;
-        mMaxHP = binding.CreateCharacterMaxHP;
-        mStrength = binding.CreateCharacterStrength;
-        mDexterity = binding.CreateCharacterDexterity;
-        mConstitution = binding.CreateCharacterConstitution;
-        mIntelligence = binding.CreateCharacterIntelligence;
-        mWisdom = binding.CreateCharacterWisdom;
-        mCharisma = binding.CreateCharacterCharisma;
-        mArmorClass = binding.CreateCharacterArmorClass;
-        mInitiative = binding.CreateCharacterInitiative;
-        mInspiration = binding.CreateCharacterInspiration;
-        mProficiencyBonus = binding.CreateCharacterProficiencyBonus;
-        mBackstory = binding.CreateCharacterBackstory;
-        mTraits = binding.CreateCharacterTraits;
-        mIdeals = binding.CreateCharacterIdeals;
-        mBonds = binding.CreateCharacterBonds;
-        mFlaws = binding.CreateCharacterFlaws;
-        mFeatures = binding.CreateCharacterFeatures;
         mCreate = binding.createCharacterButton;
     }
 
@@ -149,34 +112,12 @@ public class CharacterCreateActivity extends AppCompatActivity {
 
     private boolean verifyFields(){
 
-        // List of all the EditText fields to verify none of them are null, except for subclass which will just be set to "none"
+        // List of all the EditText fields to verify none of them are null
         List<EditText> characterAttributes = new ArrayList<>();
 
         characterAttributes.add(mName);
         characterAttributes.add(mRace);
         characterAttributes.add(mClass);
-        characterAttributes.add(mBackstory);
-        characterAttributes.add(mTraits);
-        characterAttributes.add(mIdeals);
-        characterAttributes.add(mBonds);
-        characterAttributes.add(mFlaws);
-        characterAttributes.add(mFeatures);
-
-        // List of just the EditText fields that take Integers, to verify the are not null and are ints
-        List<EditText> integerCharacterAttributes = new ArrayList<>();
-
-        integerCharacterAttributes.add(mLevel);
-        integerCharacterAttributes.add(mMaxHP);
-        integerCharacterAttributes.add(mStrength);
-        integerCharacterAttributes.add(mDexterity);
-        integerCharacterAttributes.add(mConstitution);
-        integerCharacterAttributes.add(mIntelligence);
-        integerCharacterAttributes.add(mWisdom);
-        integerCharacterAttributes.add(mCharisma);
-        integerCharacterAttributes.add(mArmorClass);
-        integerCharacterAttributes.add(mInitiative);
-        integerCharacterAttributes.add(mInspiration);
-        integerCharacterAttributes.add(mProficiencyBonus);
 
         // Making sure none of the String EditText's are null
         for(int i = 0; i < characterAttributes.size(); i++){
@@ -188,31 +129,11 @@ public class CharacterCreateActivity extends AppCompatActivity {
             }
         }
 
-        // Making sure none of the Int EditText's are null & that they are Ints
-        for (int i = 0; i < integerCharacterAttributes.size(); i++) {
-
-            if (integerCharacterAttributes.get(i).getText().toString().isEmpty()) {
-                showToast("Please fill in "
-                        + integerCharacterAttributes.get(i).getHint().toString()
-                        + " before creating your character");
-                return false;
-            }
-
-            try {
-                Integer.parseInt(integerCharacterAttributes.get(i).getText().toString());
-            } catch (NumberFormatException e) {
-                showToast(integerCharacterAttributes.get(i).getText().toString()
-                        + " is not a valid number for "
-                        + integerCharacterAttributes.get(i).getHint().toString());
-                return false;
-            }
-        }
-
+        // A subclass isn't always required
         if(mSubClass.getText().toString().isEmpty()){
-            mSubClass.setText("None");
+            mSubClass.setText("Empty");
         }
 
-        showToast("Creating your character now");
         return true;
     }
 
