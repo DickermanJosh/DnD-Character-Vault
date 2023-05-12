@@ -12,6 +12,9 @@
         android:theme="@style/Theme.DnD_Character_Vault"
         tools:targetApi="31">
         <activity
+            android:name=".DeleteCharacterActivity"
+            android:exported="false" />
+        <activity
             android:name=".AdminCreateUserActivity"
             android:exported="false" />
         <activity

@@ -29,6 +29,7 @@ public class EditItemActivity extends AppCompatActivity {
 
     private Button mSaveButton;
     private Button mBackButton;
+    private Button mDelete;
 
     private Item originalItem;
 
@@ -70,6 +71,20 @@ public class EditItemActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        mDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mDnDVaultDAO.delete(originalItem);
+                showToast(originalItem.getName() + " successfully deleted");
+
+                Intent intent = CharacterEditActivity.IntentFactory(getApplicationContext(),
+                        MainActivity.currentUser.getLogId(),
+                        CharacterEditActivity.characterID);
+                startActivity(intent);
+            }
+        });
+
     }
 
     private void verifyFields() {
@@ -108,6 +123,7 @@ public class EditItemActivity extends AppCompatActivity {
         mAmountHeld.setHint("Amount: " + originalItem.getAmountHeld());
         mSaveButton = binding.saveButton;
         mBackButton = binding.backButton;
+        mDelete = binding.deleteItemButton;
     }
 
 

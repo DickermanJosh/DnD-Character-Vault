@@ -642,6 +642,11 @@ public class CharacterEditActivity extends AppCompatActivity {
                             startActivity(intent);
                         }
                     });
+                } else if(i == 26){
+                    Intent intent = DeleteCharacterActivity.IntentFactory(getApplicationContext(),
+                            MainActivity.currentUser.getLogId(),
+                            characterID);
+                    startActivity(intent);
                 }
             }
         });
@@ -775,6 +780,7 @@ public class CharacterEditActivity extends AppCompatActivity {
         characterAttributesList.add("Items: ");
         characterAttributesList.add("Spells: ");
         characterAttributesList.add("Weapons: ");
+        characterAttributesList.add("Delete " + currentCharacter.getName() + "?");
 
         ArrayAdapter arrayAdapter = new ArrayAdapter(getApplicationContext(), android.R.layout.simple_list_item_1,characterAttributesList);
         mCharacterAttributes.setAdapter(arrayAdapter);
