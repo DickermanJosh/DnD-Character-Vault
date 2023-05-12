@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AdminMenuActivity">
+    <ListView
+        android:id="@+id/allUsers_listview"
+        android:layout_width="match_parent"
+        android:layout_height="500dp"
+        android:fadeScrollbars="true"
+        android:scrollbars="vertical">
+
+
+
+    </ListView>
+
+
+    <Button
+        android:id="@+id/create_new_user_button"
+        android:layout_width="119dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="280dp"
+        android:layout_marginBottom="169dp"
+        android:text="Create New User" />
+
+    <Button
+        android:id="@+id/back_button"
+        android:layout_width="122dp"
+        android:layout_height="58dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="279dp"
+        android:layout_marginEnd="9dp"
+        android:layout_marginBottom="167dp"
+        android:text="Back" />
+
+    <Button
+        android:id="@+id/delete_user_button"
+        android:layout_width="123dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="144dp"
+        android:layout_marginEnd="144dp"
+        android:layout_marginBottom="168dp"
+        android:text="Delete User" />
+
+    <EditText
+        android:id="@+id/delete_user_editText"
+        android:layout_width="wrap_content"
+        android:layout_height="76dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="87dp"
+        android:layout_marginEnd="86dp"
+        android:layout_marginBottom="347dp"
+        android:gravity="center"
+        android:hint="Enter the ID of the user you wish to delete:"
+        android:textSize="11dp"
+        android:inputType="number"
+        android:visibility="invisible"/>
+
+</RelativeLayout>

@@ -88,6 +88,14 @@ public class LandingActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        mAdminThings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = AdminMenuActivity.IntentFactory(getApplicationContext(),MainActivity.currentUser.getLogId());
+                startActivity(intent);
+            }
+        });
     }
 
     public static Intent IntentFactory(Context context, int userID){
