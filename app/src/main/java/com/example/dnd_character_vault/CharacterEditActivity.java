@@ -72,6 +72,10 @@ public class CharacterEditActivity extends AppCompatActivity {
         mAddToListButton = binding.addToListButton;
         mEditCharacterStat = binding.editCharacterStat;
 
+        mItems.setVisibility(View.INVISIBLE);
+        mSpells.setVisibility(View.INVISIBLE);
+        mWeapons.setVisibility(View.INVISIBLE);
+
         setupDatabase();
 
         getCharacter();
@@ -79,6 +83,10 @@ public class CharacterEditActivity extends AppCompatActivity {
         setupList();
 
         setupItemsList();
+
+        setupSpellsList();
+
+        setupWeaponsList();
 
         mCharacterAttributes.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -534,11 +542,15 @@ public class CharacterEditActivity extends AppCompatActivity {
                     mEditCharacterStat.setVisibility(View.INVISIBLE);
                     mSaveButton.setVisibility(View.INVISIBLE);
                     mEditCharacterStat.getText().clear();
+                    mSpells.setVisibility(View.INVISIBLE);
+                    mWeapons.setVisibility(View.INVISIBLE);
                     mItems.setVisibility(View.VISIBLE);
                     mAddToListButton.setVisibility(View.VISIBLE);
                     mAddToListButton.setText("Add a New Item");
                     setupItemsList();
-
+                    if(characterItemsList.isEmpty()){
+                        showToast("You don't currently have any saved items");
+                    }
                     mItems.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
                         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -561,16 +573,21 @@ public class CharacterEditActivity extends AppCompatActivity {
                     });
 
                 } else if(i == 24){ // Spells
+
                     //mCharacterAttributes.setVisibility(View.INVISIBLE);
                     mEditCharacterStat.setVisibility(View.INVISIBLE);
                     mSaveButton.setVisibility(View.INVISIBLE);
                     mEditCharacterStat.getText().clear();
+                    mItems.setVisibility(View.INVISIBLE);
+                    mWeapons.setVisibility(View.INVISIBLE);
                     mSpells.setVisibility(View.VISIBLE);
                     mAddToListButton.setVisibility(View.VISIBLE);
                     mAddToListButton.setText("Add a New Spell");
                     setupSpellsList();
-
-                    mItems.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    if(characterSpellList.isEmpty()){
+                        showToast("You don't currently have any saved spells");
+                    }
+                    mSpells.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
                         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
@@ -592,16 +609,20 @@ public class CharacterEditActivity extends AppCompatActivity {
                     });
 
                 } else if(i == 25){ // Weapons
-                    //mCharacterAttributes.setVisibility(View.INVISIBLE);
+                    mCharacterAttributes.setVisibility(View.INVISIBLE);
                     mEditCharacterStat.setVisibility(View.INVISIBLE);
                     mSaveButton.setVisibility(View.INVISIBLE);
                     mEditCharacterStat.getText().clear();
+                    mSpells.setVisibility(View.INVISIBLE);
+                    mItems.setVisibility(View.INVISIBLE);
                     mWeapons.setVisibility(View.VISIBLE);
                     mAddToListButton.setVisibility(View.VISIBLE);
                     mAddToListButton.setText("Add a New Weapon");
                     setupWeaponsList();
-
-                    mItems.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    if(characterWeaponsList.isEmpty()){
+                        showToast("You don't currently have any saved weapons");
+                    }
+                    mWeapons.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
                         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
@@ -621,12 +642,7 @@ public class CharacterEditActivity extends AppCompatActivity {
                             startActivity(intent);
                         }
                     });
-
                 }
-
-
-
-
             }
         });
 
@@ -686,8 +702,8 @@ public class CharacterEditActivity extends AppCompatActivity {
 
             for(int k = 0; k < potentialCharacterSpells.size(); k++){
                 if(potentialCharacterSpells.get(k).equals(userSpells.get(i))){
-                    characterItemsList.add(potentialCharacterSpells.get(k).toString());
-                    itemIDtoPositionMap.put(characterItemsList.size()-1,potentialCharacterSpells.get(k).getItemId());
+                    characterSpellList.add(potentialCharacterSpells.get(k).toString());
+                    spellIDtoPositionMap.put(characterSpellList.size()-1,potentialCharacterSpells.get(k).getSpellId());
                     break;
                 }
             }
@@ -708,8 +724,8 @@ public class CharacterEditActivity extends AppCompatActivity {
 
             for(int k = 0; k < potentialCharacterWeapons.size(); k++){
                 if(potentialCharacterWeapons.get(k).equals(userWeapons.get(i))){
-                    characterItemsList.add(potentialCharacterWeapons.get(k).toString());
-                    itemIDtoPositionMap.put(characterItemsList.size()-1,potentialCharacterWeapons.get(k).getItemId());
+                    characterWeaponsList.add(potentialCharacterWeapons.get(k).toString());
+                    weaponIDtoPositionMap.put(characterWeaponsList.size()-1,potentialCharacterWeapons.get(k).getWeaponId());
                     break;
                 }
             }
