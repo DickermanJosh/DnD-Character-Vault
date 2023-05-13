@@ -31,7 +31,7 @@ public class Spell {
 
     @Override
     public String toString() {
-        return name + ", ID: " + getSpellId();
+        return name + " - " + getDescription();
     }
 
     @Override
