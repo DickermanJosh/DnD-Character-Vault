@@ -95,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
         // Do we have any users at all?
         List<User> users = mDnDVaultDAO.getAllUsers();
         if(users.size() <= 0){
-            User defaultUser = new User("test1","test1",false);
+            User defaultUser = new User("testuser1","testuser1",false);
             User defaultAdmin = new User("admin2","admin2",true);
             mDnDVaultDAO.insert(defaultUser,defaultAdmin);
 

@@ -44,7 +44,7 @@ public class Item {
 
     @Override
     public String toString() {
-        return name + ", ID: " + getItemId();
+        return name + " - " + getDescription() + "\n" + getAbilities();
     }
 
     public void setItemId(int itemId) {

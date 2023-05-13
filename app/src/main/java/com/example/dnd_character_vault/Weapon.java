@@ -45,7 +45,7 @@ public class Weapon {
 
     @Override
     public String toString() {
-        return name + ", ID: " + getWeaponId();
+        return name + " - " + getDescription() +"\n" + getAbilities();
     }
     public int getWeaponId() {
         return mWeaponId;
